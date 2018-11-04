@@ -1,0 +1,29 @@
+{% if field.vertical %}
+<div class="form-group col-sm-{{field.size if field.size else 12}}">
+  <label for="{{uuid}}"> {{field.label}}</label>
+  <div class="form-check input-group" style="
+	    position: relative;
+	    top: 8px;
+	    font-size: 20px;
+	    text-align: left;
+	    padding: 0;
+	    margin: 0;
+	">
+  	<div class="pretty p-switch p-fill">
+        <input {{ 'checked' if field.checked }} class="form-check-input" name="{{ field.name if field.name else key }}" type="{{ 'radio' if field.radio else 'checkbox' }}" value="{{ field.value }}">
+        <div class="state p-danger">
+            <label></label>
+        </div>
+    </div>
+   </div>
+</div>
+{% else %}
+<div class="form-check col-{{field.size if field.size else 12}}">
+	<div class="pretty p-switch p-fill">
+        <input {{ 'checked' if field.checked }} class="form-check-input" name="{{ field.name if field.name else key }}" type="{{ 'radio' if field.radio else 'checkbox' }}" value="{{ field.value }}">
+        <div class="state p-primary">
+            <label>{{field.label}}</label>
+        </div>
+    </div>
+</div>
+{% endif %}

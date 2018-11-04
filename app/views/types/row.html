@@ -1,0 +1,10 @@
+ <div  class="col-{{field.size if field.size else 12}} row {{ 'form-inline' if field.layout=='inline' }}">
+  {% for key,field in field.fields %}
+    {% includeWith ['types/'+field.type+'.html','types/default.html'] with {
+      fields : fields,
+      field: field,
+      key: key,
+      uuid : generateUUID()
+    } ignore empty %}
+  {% endfor %}
+</div>

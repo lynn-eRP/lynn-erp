@@ -1,0 +1,111 @@
+{% import "forms.html" as form %}
+{{ setTitle(("Modifier : <b>"+ login+"</b>") if _id else "Creer utilisateur") }}
+<div class="element-wrapper">
+    <h6 class="element-header">
+        {{ form.button(generateUUID(), '<i class="icon-home"></i>', href='auth:views/gest-user.html') }}
+    </h6>
+    <div class="element-box">
+        {{
+			form.create(size=12, fields={
+				lastName : {
+					type  : 'text',
+					label : 'Nom',
+					placeholder : 'Nom',
+					size : 6,
+					value : lastName
+				},
+				firstName : {
+					type  : 'text',
+					label : 'Prenom',
+					placeholder : 'Prenom',
+					size : 6,
+					value : firstName
+				},
+				email : {
+					type  : 'email',
+					label : 'Email',
+					placeholder : 'Email',
+					value : email
+				},
+				login : {
+					type  : 'text',
+					label : 'Login',
+					placeholder : 'Login',
+					value : login,
+					attributes : {
+						readonly : 'readonly'
+					}  if _id and login else null
+				},
+				roles : {
+					icon : 'icon-user',
+					iconPosition : 'right',
+					type  : 'select',
+					collection : 'roles',
+					selector : {},
+					optionLabel : 'role', 
+					label : 'Roles',
+					placeholder : 'Roles',
+					value : roles,
+					attributes : {
+						disabled : 'disabled'
+					}  if _id and app.locales.user._id == _id else null
+				}
+			} | push(extends("user")))
+		}}
+    </div>
+</div>
+<script> 
+	$("form").submit(async evt=>{
+		var data = $("form").serializeArray().reduce((a,b)=>{
+          a[b.name] = b.value;
+          return a;
+        },{});
+        console.log("Try to add", {
+				_id : `user/${data.login}`,
+				...data
+			});
+		if(!data.email)
+          return error("L'email ne peut etre vide");
+ 	    if(!data.login)
+          return error("Le login ne peut etre vide");
+        if(!data.lastName)
+          return error("Le nom ne peut etre vide");
+
+		{% if _id %}
+			data.mtime = Date.now();
+			data.updatedBy = app.locales.user._id;
+			data._id = '{{_id}}';
+			data._rev = '{{_rev}}';
+		{% else %}
+			data.ctime = Date.now();
+			data.inactive = true;
+			data.uuid = '{{ generateUUID() }}';
+			data.password = sha256(localStorage.defaultPassword || 'secret',data.uuid);
+			data.mtime = null;
+			data.createdBy = app.locales.user._id;
+		{% endif %}
+		{% if app.locales.user._id != _id %}
+        	data.roles = $('form [name=roles]').val();
+        {% else %}
+        	data.roles = {{ roles | dump |safe }};
+		{% endif %}
+		try{
+			{% if _id %}
+				let doc = await app.dbUsersGet('{{ _id }}');
+				data = {...doc, ...data};
+			{% endif %}
+			await app.dbUsersPut({
+				_id : `user/${data.login}`,
+				...data
+			});
+			try{
+				await success();
+			}catch(e){}
+			app.goto('auth:views/gest-user.html');
+		}catch(e){
+			console.log("Error",e)
+			error(e.message);
+		}
+        return false;
+	})
+</script>

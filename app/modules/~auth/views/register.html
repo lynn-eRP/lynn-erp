@@ -1,0 +1,114 @@
+<style type="text/css">
+  body.color-scheme-dark .auth-box-w {
+    background-color: #212121;
+  }
+  .auth-box-w{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 619px;
+    width: 500px;
+    margin-top: calc(-619px / 2);
+    margin-left: calc(-500px / 2);
+  }
+  .auth-box-w .logo-w {
+    padding: 25px;
+  }
+</style>
+<div class="all-wrapper menu-side with-pattern">
+      <div class="auth-box-w wider">
+        <div class="logo-w">
+          <img alt="" src="img/logo-big.png">
+        </div>
+        <h4 class="auth-header">
+          Create admin
+        </h4>
+        <form register>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for=""> Nom</label><input name="lastName" autofocus="autofocus" class="form-control" tabindex="1" placeholder="Enter votre nom" type="text">
+                <div class="pre-icon os-icon os-icon-user-male-circle2"></div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for=""> Prenom</label><input name="firstName" tabindex="2" class="form-control" placeholder="Enter votre prenom" type="text">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for=""> Email address</label><input name="email" class="form-control" tabindex="3" placeholder="Enter email" type="email">
+            <div class="pre-icon os-icon os-icon-email-2-at2"></div>
+          </div>
+          <div class="form-group">
+            <label for=""> Login</label><input name="login" class="form-control" tabindex="4" placeholder="Enter Login" type="text">
+            <div class="pre-icon os-icon os-icon-cv-2"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for=""> Password</label><input name="password" class="form-control" tabindex="5" placeholder="Password" type="password">
+                <div class="pre-icon os-icon os-icon-fingerprint"></div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="">Confirm Password</label><input name="password2" class="form-control" tabindex="6" placeholder="Password" type="password">
+              </div>
+            </div>
+          </div>
+          <div class="buttons-w">
+            <input tabindex="7" type=submit class="btn btn-primary" value="Register Now" >
+          </div>
+        </form>
+      </div>
+    </div>
+    <script type="text/javascript">
+      console.log(">>>>>>>",document);
+      $("form[register]").submit(async e=>{
+        e.preventDefault();
+        var data = $("form").serializeArray().reduce((a,b)=>{
+          a[b.name] = b.value;
+          return a;
+        },{});
+        if(!data.email)
+          return error("L'email ne peut etre vide");
+        if(!data.lastName)
+          return error("Le nom ne peut etre vide");
+        if(data.password2 == data.password){
+          delete data.password2;
+          data.roles = ["super-admin"];
+          data.inactive = false;
+          data.ctime = Date.now();
+          data.mtime = null;
+          data.root = true;
+          // data.login = data.email; 
+          data.uuid = '{{ generateUUID() }}';
+          data.password = sha256(data.password,data.uuid);
+          try{
+            await app.dbUsersPut({
+              _id : `user/${data.login}`,
+              ...data
+            });
+            swal({
+              // position: 'top-end',
+              type : 'success',
+              title: 'Success',
+              html : "Utilisateur creer avec success",
+              showConfirmButton: false,
+              timer: 3000
+            }).then(()=>{
+              app.unlock();
+            })
+          }catch(e){
+            error(e.message);
+          }
+        }else{
+          $("input[name=password]").val("")
+          $("input[name=password2]").val("");
+          error("Les mots de passe ne correspondent pas",'error');
+        }
+        return false;
+      });
+    </script>

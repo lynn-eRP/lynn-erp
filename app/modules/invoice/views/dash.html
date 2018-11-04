@@ -1,0 +1,428 @@
+<link href="{{getLink('css/element-search.css')}}" rel="stylesheet">
+
+<style type="text/css">
+  .pi-body .pi-info{
+    width: 100%;
+  }
+  .pi-body .pi-info .pi-name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .pi-body .pi-info .pi-sub {
+    width: 100%;
+    font-size: 90%;
+    font-style: italic;
+    margin: 0;
+    padding: 0;
+    color: rgba(0,0,0,0.7) !important;
+  }
+  body.color-scheme-dark .pi-body .pi-info .pi-sub{
+    color: rgba(255,255,255,0.7) !important;
+  }
+  .pipeline-item .pi-body:first-child{
+    padding-bottom: 2px;
+    background: rgba(0,0,0,0.13);
+  }
+  body.color-scheme-dark .pipeline.white .pipeline-item:hover {
+    border: 1px solid #58595F;
+    -webkit-box-shadow: 0px 2px 8px rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0px 2px 8px rgba(255, 255, 255, 0.1) !important;
+  }
+
+  dash-client{
+    width: 100%;
+    height: calc(100% - 68px);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: block;
+  }
+  dash-client .pipelines-w,
+  dash-client .pipelines-w .row,
+  dash-client .pipelines-w .row > div,
+  dash-client .pipelines-w .row .pipeline{
+    height: 100%;
+  }
+  dash-client .pipelines-w .row .pipeline-body{
+    height: calc(100% - 90px) !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0 10px;
+  }
+  dash-client .pipeline-settings .btn-link-action {
+    padding: 0;
+    margin: 0;
+  }
+  dash-client .pipeline-settings .btn-link-action i {
+    font-size: 24px;
+    padding: 0;
+    margin: 0;
+  }
+  dash-client .pipeline-settings .btn-link-action:hover i{
+    color: #334152;
+  }
+  body.color-scheme-dark dash-client .pipeline-settings .btn-link-action:hover i{
+    color: #FFF;
+  }
+  .pi-foot{
+      text-align: right;
+  }
+  .pi-foot .extra-info{
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /*.pi-name{
+    padding: 5px 25px 10px 10px;
+    margin-bottom: 0;
+    background-color: #F1F4F8;
+    color: rgba(0, 0, 0, 0.6) !important;
+    text-transform: uppercase;
+  }
+  .color-scheme-dark .pi-name{
+    background-color: #2c354e;
+    color:  rgba(218, 226, 243, 0.4) !important;
+  }*/
+  .pipeline-item hr{
+    margin: 0;
+  }
+  .pi-extra-info{
+    text-align: left;
+    font-size: 80%;
+    padding: 10px 5px;
+  }
+  .pi-extra-info .expire{
+    /*padding-bottom: 10px;*/
+  }
+  .pi-extra-info .badge{
+    text-transform: lowercase;
+    font-variant: small-caps;
+    margin: 2px;
+  }
+  
+</style>
+<div class="control-header">
+  <div class="row align-items-center">
+    <div class="col-8 col-lg-9">
+      {% include getLink("views/dash-filter.html") %}
+    </div>
+    <div class="col-4 col-lg-3 text-right">
+      <!-- <a class="btn btn-sm btn-outline-primary btn-rounded btn-upper mr-4" href="#"><i class="os-icon os-icon-newspaper"></i><span>Rapport</span></a> -->
+    </div>
+  </div>
+</div>
+<dash-client>
+  <div class="pipelines-w">
+    <div class="row">
+      <div class="col-lg-6 col-xl-4 col-xxl-3">
+        <!--------------------
+        START - Pipeline
+        -------------------->
+        <div class="pipeline white lined-primary">
+          <div class="pipeline-header">
+            <h5 class="pipeline-name">
+              DEVIS
+            </h5>
+            <div class="pipeline-header-numbers">
+              <div class="pipeline-value devis-value">{{convertToMoney(0)}}</div>
+              <div class="pipeline-count devis-doc">0 Document</div>
+            </div>
+            <div class="pipeline-settings">
+              <a class="btn btn-link-action text-primary" data-placement="top" data-toggle="tooltip" title="Creer Devis" href="{{ getLink('views/c-facture.html?devis=1') }}"><i class="dashicons dashicons-plus"></i></a>
+            </div>
+          </div>
+          <div class="pipeline-body devis-list">
+          </div>
+        </div>
+        <!--------------------
+        END - Pipeline
+        -------------------->
+      </div>
+      <div class="col-lg-6 col-xl-4 col-xxl-3">
+        <!--------------------
+        START - Pipeline
+        -------------------->
+        <div class="pipeline white lined-danger">
+          <div class="pipeline-header">
+            <h5 class="pipeline-name">
+              Facture
+            </h5>
+            <div class="pipeline-header-numbers">
+              <div class="pipeline-value facture-value">{{convertToMoney(0)}}</div>
+              <div class="pipeline-count facture-doc">0 Document</div>
+            </div>
+            <div class="pipeline-settings">
+              <a class="btn btn-link-action text-danger" data-placement="top" data-toggle="tooltip" title="Creer Facture" href="{{ getLink('views/c-facture.html') }}"><i class="dashicons dashicons-plus"></i></a>
+            </div>
+          </div>
+          <div class="pipeline-body facture-list">
+          </div>
+        </div>
+        <!--------------------
+        END - Pipeline
+        -------------------->
+      </div>
+      <div class="col-lg-6 col-xl-4 col-xxl-3">
+        <!--------------------
+        START - Pipeline
+        -------------------->
+        <div class="pipeline white lined-success">
+          <div class="pipeline-header">
+            <h5 class="pipeline-name">
+              Payes
+            </h5>
+            <div class="pipeline-header-numbers">
+              <div class="pipeline-value paye-value">{{convertToMoney(0)}}</div>
+              <div class="pipeline-count paye-doc">0 Document</div>
+            </div>
+            <div class="pipeline-settings">
+            </div>
+          </div>
+          <div class="pipeline-body paye-list">
+          </div>
+        </div>
+        <!--------------------
+        END - Pipeline
+        -------------------->
+      </div>
+      <div class="col-lg-6 col-xl-4 col-xxl-3 d-none d-xxl-block">
+        <!--------------------
+        START - Pipeline
+        -------------------->
+        <div class="pipeline white lined-warning">
+          <div class="pipeline-header">
+            <h5 class="pipeline-name">
+              Expires
+            </h5>
+            <div class="pipeline-header-numbers">
+              <div class="pipeline-value expire-value">{{convertToMoney(0)}}</div>
+              <div class="pipeline-count expire-doc">0 Document</div>
+            </div>
+            <div class="pipeline-settings"></div>
+          </div>
+          <div class="pipeline-body expire-list">
+          </div>
+        </div>
+        <!--------------------
+        END - Pipeline
+        -------------------->
+      </div>
+    </div>
+  </div>
+</dash-client>
+<script type="text/javascript">
+  // #15. CRM PIPELINE
+  if ($('.pipeline').length) {
+    $('[data-toggle="tooltip"]').click(function(){
+      $(this).tooltip('hide');
+      $(".tooltip").remove();
+    }).tooltip();
+    let filterDataFn = (e)=>{
+      if(e) e.preventDefault();
+      let val =$('#filter-all').val(); 
+      let valSort =$('#sort-all').val().split("|");
+      (["facture","devis","paye","expire"]).forEach(id=>{
+        tinysort(`.${id}-list>.pipeline-item`,{attr: valSort[0], order: valSort[1]});
+        $(`.${id}-list>.pipeline-item`).show().filter(function(){return this.getAttribute('raison').toLowerCase().search(val) == -1 }).hide() 
+      })
+    }
+
+    let filterDataTTL = null;
+    let filterData = (e)=>{
+      if(e) e.preventDefault();
+      clearTimeout(filterDataTTL);
+      filterDataTTL = setTimeout(()=>{
+        filterDataFn();
+      },750);
+    }
+    let getItem = (type,client,factures)=>{
+      let total = {ttc:0,ht:0,doc:0,ctime:0};
+      let ret = $(`<div class="pipeline-item" raison="${client.raison}">
+          <div class="pi-body">
+            <div class="pi-info">
+              <div class="h6 pi-name">
+               ${client.raison}
+              </div>
+              <div class="pi-sub">
+                <span class="float-left">
+                  ${client.telephone || ""}
+                </span>
+                <span class="float-right">
+                  ${client.email || ""}
+                </span>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="pi-body">
+            <table class="pi-info">
+              <tr><td><i class="fa fa-file-o"></i></td><td>Document${factures.length>1 ? 's' : ''}</td><td> ${total.doc += factures.length}</td></tr>
+              <tr><td><i class="fa fa-money"></i></td><td>Montant HT</td><td>${ convertToMoney(factures.reduce((a,b)=>{
+                    if(total.ctime < b.facture.startAt) total.ctime =  b.facture.startAt;
+                    a+= b.facture.items.reduce((a,b)=>{
+                      a+= (b.montant - b.montant * b.reduction) * b.quantite
+                      return a;
+                    },0);
+                    total.ht = a;
+                    return a;
+                },0))}</td></tr>
+              <tr><td><i class="fa fa-money"></i></td><td>Montant TTC</td><td>${convertToMoney(factures.reduce((a,c)=>{
+                    a+= c.facture.items.reduce((a,b)=>{
+                      let total = (b.montant - b.montant * b.reduction) * b.quantite;
+                      let taxe1 = c.facture.taxe1 || TAXE1;
+                      let taxe2 = c.facture.taxe2 || TAXE2;
+                      taxe1 = total*taxe1/100// taxe1
+                      taxe2 = total*taxe2/100// taxe2
+                      a+= total + taxe1 + taxe2;
+                      return a;
+                    },0);
+                    total.ttc = a;
+                    return a;
+                },0))}</td></tr>
+            </table>
+          </div>
+        </div>
+      `);
+      ret.attr("ctime",total.ctime);
+      ret.attr("montant",total.ttc);
+      ret.attr("docs",total.doc);
+      ret.data(client);
+      $(`.${type}-value`).get(0).value += total.ttc;
+      $(`.${type}-doc`).get(0).value += total.doc;
+      return ret;
+    };
+    // INIT DRAG AND DROP FOR PIPELINE ITEMS
+    // var dragulaObj = dragula($('.pipeline-body').toArray(), {}).on('drag', function () {}).on('drop', function (el) {}).on('over', function (el, container) {
+    //   $(container).closest('.pipeline-body').addClass('over');
+    // }).on('out', function (el, container, source) {
+
+    //   var new_pipeline_body = $(container).closest('.pipeline-body');
+    //   new_pipeline_body.removeClass('over');
+    //   var old_pipeline_body = $(source).closest('.pipeline-body');
+    // });
+    
+    // chargement des vues
+    let load = typeOfDocument=>{
+      $("."+typeOfDocument+"-list").html(loaderHTML); // add loadder indicator
+      Object.defineProperty($("."+typeOfDocument+"-value").get(0),'value',{
+        get(){
+          return convertToMontant(this.innerText);
+        },
+        set(value){
+          this.innerText = convertToMoney(value);
+        }
+      });
+      Object.defineProperty($("."+typeOfDocument+"-doc").get(0),'value',{
+        get(){
+          return convertToMontant(this.innerText);
+        },
+        set(value){
+          this.innerText = convertToMoney(value," ","",0," Document"+(value>1 ? 's' : ''));
+        }
+      });
+      app.dbComptabiliteQuery({
+        map:function(doc){
+          if(/^facture\//i.test(doc._id) && doc.type=='typeOfDocument'){
+            emit(doc.client || "",{_id:doc.client, facture:doc })
+            }
+        }.toString().replace(/typeOfDocument/, typeOfDocument),
+        reduce : function(doc,values){
+          return values.reduce((a,b)=> (b._id = b._id || "",(a[b._id] || (a[b._id]=[])).push(b), a) ,{})
+        }.toString()
+      }).then(res=>{
+        $("."+typeOfDocument+"-list").html("");
+        if(res.rows.length == 0){
+          return;
+        }
+        res = res.rows[0].value;
+        Object.keys(res).forEach(client=>{
+          let l = $(loaderHTML);
+          $("."+typeOfDocument+"-list").append(l);
+          let factures = res[client];
+          if(client)
+            app.dbComptabiliteGet(client).then(client=>{
+              l.replaceWith(getItem(typeOfDocument,client,factures))
+              filterData();
+            });
+          else{
+            l.replaceWith(getItem(typeOfDocument,{raison : "<i>** Sans Client **</i>"},factures));
+            filterData();
+          }
+        })
+      })
+    }
+    // chargement des factures
+    load('facture');
+    // chargement des devis
+    load('devis');
+    // chargement des factures payes
+    load('paye');
+    // chargement des factures expires
+    load('expire');
+    // chargement des devis
+    // $(".devis-list").html(loaderHTML); // add loadder indicator
+    // Object.defineProperty($(".devis-value").get(0),'value',{
+    //   get(){
+    //     return convertToMontant(this.innerText);
+    //   },
+    //   set(value){
+    //     this.innerText = convertToMoney(value);
+    //   }
+    // });
+    // Object.defineProperty($(".devis-doc").get(0),'value',{
+    //   get(){
+    //     return convertToMontant(this.innerText);
+    //   },
+    //   set(value){
+    //     this.innerText = convertToMoney(value," ","",0," Document"+(value>1 ? 's' : ''));
+    //   }
+    // });
+    // app.dbComptabiliteQuery({
+    //   map:function(doc){
+    //     if(/^facture\//i.test(doc._id) && doc.type=='devis'){
+    //       emit(doc.client || "",{_id:doc.client, facture:doc })
+    //       }
+    //   }.toString(),
+    //   reduce : function(doc,values){
+    //     return values.reduce((a,b)=> (b._id = b._id || "",(a[b._id] || (a[b._id]=[])).push(b), a) ,{})
+    //   }.toString()
+    // }).then(res=>{
+    //   $(".devis-list").html("");
+    //   if(res.rows.length == 0) return;
+    //   res = res.rows[0].value;
+    //   Object.keys(res).forEach(client=>{
+    //     let l = $(loaderHTML);
+    //     $(".devis-list").append(l);
+    //     let devis = res[client];
+    //     if(client)
+    //       app.dbComptabiliteGet(client).then(client=>{
+    //         l.replaceWith(getItem('devis',client,devis));
+    //         filterData();
+    //       });
+    //     else{
+    //       l.replaceWith(getItem('devis',{raison : "<i>** Sans Client **</i>"},devis));
+    //       filterData();
+    //     }
+    //   })
+    // });
+    $('.pipeline-body').on('click','.pipeline-item', function(el){
+      app.goto(getLink("views/dash-client.html"),$(this).data())
+    })
+    $("#sort-all").change(filterData);
+    $("#filter-all").keyup(e=>{
+      if(e.target.classList.contains('active') && e.target.value){
+        e.target.classList.remove('active');
+      }else if(!e.target.classList.contains('active') && !e.target.value){
+        e.target.classList.add('active');
+      }
+      filterData(e);
+    });
+    $('#filter-all + .clear').click(e=>{
+      $("#filter-all").val("");
+      $("#filter-all").addClass('active');
+      filterData();
+    })
+  }
+</script>

@@ -1,0 +1,97 @@
+{% import "table.html" as table %}
+{% import "forms.html" as forms %}
+{{ setTitle("Gestion des clients") }}
+<div class="element-wrapper">
+    <h6 class="element-header">
+        {{ forms.button('c-user', 'Creer utilisateur', href=getLink('views/c-client.html'),attributes={
+            style : 'display:none' if not canDo('client/create'),
+            rel : 'modal'
+        }) }}
+    </h6>
+    <div class="element-box">
+        {{
+            table.create(id='gest-client',columns= [{
+                title: "Raison Social / Nom",
+                data : "raison"
+            }, { 
+                title: "Email",
+                data : "email" 
+            }, {
+                title : "Telephone",
+                data  : "telephone" 
+            }], db = 'dbComptabilite', selector = {
+                _id : {$regex : "^client/"}
+            }, actions = {
+                edit : {type : 'info',icon : 'fa fa-pencil', title:"Editer"},
+                trash : {type : 'danger', icon : 'fa fa-trash-o', title : "Supprimer"}
+            }| push(extends("client.actions")))
+        }}
+    </div>
+    <script type="text/javascript">
+        let actions = app.extendsData["client.actions"] || {};
+        Object.keys(actions).forEach(action=>{
+            $("#gest-client").on("click::"+action,async function(evt,doc, row, table){
+                if( 'handler' in actions[action]){
+                    evt.preventDefault();
+                    await actions[action].handler(doc,{
+                        error (msg,title){
+                            error(msg,title)
+                        },
+                        success (msg,title){
+                            success(msg,title)
+                        },
+                        updateRow(doc){
+                            row.data(doc).draw();
+                        },
+                        deleteRow(){
+                            row.remove().draw();
+                        },
+                        refreshTable(){
+                            table.draw();
+                        }
+                    })
+                }
+            })
+        });
+        $("#gest-client").on("click::trash",async function(evt,doc, row, table){
+            if(!app.canDo("client/delete"))
+                return error("Action impossible","Droits Insufisant !");
+            swal({
+              title: 'Etes vous sure?',
+              html: `Voulez-vous supprimer <b>${doc.raison}</b> ?` ,
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: `Oui supprimer !`,
+              cancelButtonText : 'Non'
+            }).then((result) => {
+              if (result.value) {
+                doc._deleted = true;
+                doc.mtime = Date.now();
+                doc.updatedBy = app.locales.user._id;
+                app.dbComptabilitePut(doc).then((docRev)=>{
+                    swal(
+                      `Suppression`,
+                      `<b>${doc.raison}</b> a bien ete supprimer`,
+                      'success'
+                    );
+                    doc._rev = docRev.rev; // update revision
+                    row.remove().draw();
+                });
+                
+              }
+            })
+        });
+        $("#gest-client").on("click::edit",function(evt,doc){
+            if(!app.canDo("client/update"))
+                return error("Action impossible","Droits Insufisant !");
+            app.goto(getLink('views/c-client.html'),doc);
+        });
+        // $("#gest-client").on("click::dash",function(evt,doc){
+        //     if(!app.canDo("client/dash"))
+        //         return error("Action impossible","Droits Insufisant !");
+        //     app.goto(getLink('views/dash-client.html'),doc);
+        // });
+    </script>
+</div>

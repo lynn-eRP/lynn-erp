@@ -1,0 +1,17 @@
+<div class="form-group row">
+    <div class="col-sm-4 col-form-label">
+      {{field.label}}
+      <div class="form-desc">{{field.description}}</div>
+    </div>
+    <div class="col-sm-8">
+      {% for item in field.items %}
+        {% includeWith "types/checkbox.html" with {field : {
+          value : item.name,
+          checked :  false,
+          name : key,
+          label : item.label,
+          checked : field.value | has(item.name)
+        }, key : key} %}
+      {% endfor %}
+    </div>
+  </div>

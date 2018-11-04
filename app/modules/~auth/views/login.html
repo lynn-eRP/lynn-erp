@@ -1,0 +1,86 @@
+<style type="text/css">
+  body.color-scheme-dark .auth-box-w {
+    background-color: #212121;
+  }
+  .auth-box-w{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: calc(-565px / 2);
+    margin-left: calc(-400px / 2);
+    width: 400px;
+  }
+</style>
+<div class="all-wrapper menu-side with-pattern">
+  <div class="auth-box-w">
+    <div class="logo-w">
+      <a href="#"><img alt="" src="img/logo-big.png"></a>
+    </div>
+    <h4 class="auth-header">
+      Login Form
+    </h4>
+    <form login>
+      <div class="form-group">
+        <label for="">Username</label><input name="login" autofocus="autofocus" tab-index="1" class="form-control" placeholder="Enter your username" type="text">
+        <div class="pre-icon os-icon os-icon-user-male-circle"></div>
+      </div>
+      <div class="form-group">
+        <label for="">Password</label><input name="password" class="form-control" tab-index="2" placeholder="Enter your password" type="password">
+        <div class="pre-icon os-icon os-icon-fingerprint"></div>
+      </div>
+      <div class="buttons-w">
+        <button submit class="btn btn-primary">Log me in</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script type="text/javascript">
+  $("form[login]").submit(async e=>{
+    e.preventDefault();
+    let btn = $('form[login] [submit]');
+    btn.prop('disabled',true);
+    var data = $("form[login]").serializeArray().reduce((a,b)=>{
+      a[b.name] = b.value;
+      return a;
+    },{});
+    data.login = data.login.trim();
+    if(!data.login){
+      btn.prop('disabled',false);
+      return error("L'email ne peut etre vide");
+    }
+    try{
+      var doc = await app.dbUsersGet(`user/${data.login}`);
+      if(sha256(data.password,doc.uuid) == doc.password){
+        app.locales.user = doc;
+        doc.droits = [];
+        if(doc.roles[0] == "super-admin")
+          doc.roles = ["super-admin"];
+        else if(doc.roles.length){
+          for(let role in doc.roles)
+            try {
+              let index = role;
+              role = doc.roles[index];
+              let r = (await app.dbUsersGet(role));
+              doc.roles[index] = r.role;
+              doc.droits = doc.droits.concat(r.droits);
+            }catch(e){
+              console.error(e)
+            }
+          doc.droits = doc.droits.filter(function (value, index, self) { 
+            return self.indexOf(value) === index;
+          });
+        }else
+          doc.roles = [""];
+          app.addLocales("user",doc);
+          await success("Success");
+          btn.prop('disabled',false);
+          app.unlock();
+      }else{
+        throw new Error("Bad password")
+      }
+    }catch(e){
+      console.error(e)
+      btn.prop('disabled',false);
+      error("Identification impossible");
+    }
+  })</script>

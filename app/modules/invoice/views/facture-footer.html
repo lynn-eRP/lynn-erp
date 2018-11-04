@@ -1,0 +1,15 @@
+<div class="invoice-logo">
+  <img alt="" src="{{ app.store.get('LOGO') }}">
+</div>
+<div class="invoice-info">
+	<div>
+		{% if app.store.get("BP") %}<span>BP : {{ app.store.get("BP") }} </span>{% endif %}
+		{% if app.store.get("TEL") %}<span>Tel : {{ app.store.get("TEL") }}</span>{% endif %}
+		{% if app.store.get("EMAIL") %}<span>Email : {{ app.store.get("EMAIL") }}</span>{% endif %}
+	</div>
+	<div>
+		{% if app.store.get("NIF") %}<span>NIF {{ app.store.get("NIF") }}</span>{% endif %}
+		{% if app.store.get("RCCM") %}<span>RCCM {{ app.store.get("RCCM") }}</span>{% endif %}
+		{% if app.store.get("BANK") %}<span>{{ app.store.get("BANK") }}</span>{% endif %}
+	</div>
+</div>

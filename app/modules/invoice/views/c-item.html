@@ -1,0 +1,59 @@
+{% import "forms.html" as form %}
+{{ setTitle("Modifier ligne" if _id else "Nouvelle ligne") }}
+{% if not isModal %}
+	<script type="text/javascript">
+		app.goto(getLink('views/dash.html')) ;
+	</script>
+{% else %}
+    {{
+		form.create(fields={
+			libelle : {
+				type  : 'text',
+				label : 'Libelle',
+				placeholder : 'Nom du produit /  service',
+				value : libelle if libelle 
+			},
+			montant : {
+				type  : 'number',
+				label : 'Prix',
+				placeholder : 'Prix du produit',
+				size : 6,
+				value : montant if montant else "0",
+				attributes : {
+					min : 0
+				}
+			},
+			quantite : {
+				type  : 'number',
+				label : 'Quatite',
+				placeholder : 'quantite',
+				size : 6,
+				value : quantite if quantite else 1,
+				attributes : {
+					min : 0
+				}
+			},
+			reduction : {
+				type  : 'number',
+				label : 'Reduction %',
+				placeholder : '% de reduction',
+				value : reduction if reduction else "0",
+				attributes : {
+					min : 0,
+					max : 100
+				}
+			}
+		})
+	}}
+	<script>
+		$("form").submit(async evt=>{
+			evt.preventDefault();
+			var data = $("form").serializeArray().reduce((a,b)=>{
+	          a[b.name] = b.value.trim();
+	          return a;
+	        },{});
+			sendResult(data);
+	        return false;
+		})
+	</script>
+{% endif %}

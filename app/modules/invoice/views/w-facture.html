@@ -1,0 +1,150 @@
+<div class="inline-profile-tiles">
+  <div class="row">
+  	<div class="col-3 col-sm-2 col-xxl-1">
+      <a class="element-box el-tablo centered trend-in-corner smaller" href="#">
+        <div class="label">
+          Vue Globale
+        </div>
+        <div class="value">
+          <i class="dashicons dashicons-welcome-widgets-menus"></i>
+        </div>
+      </a>
+    </div>
+    <div class="col-3 col-sm-2 col-xxl-1">
+      <a class="element-box el-tablo centered trend-in-corner smaller" href="#">
+        <div class="label">
+          Facture
+        </div>
+        <div class="value text-danger">
+          <i class="fa fa-plus-circle"></i>
+        </div>
+      </a>
+    </div>
+    <div class="col-3 col-sm-2 col-xxl-1">
+      <a class="element-box el-tablo centered trend-in-corner smaller" href="#">
+        <div class="label">
+          Devis
+        </div>
+        <div class="value text-primary">
+          <i class="fa fa-plus-circle"></i>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  .inline-profile-tiles .row .element-box .label,.inline-profile-tiles .row .element-box .value{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .el-tablo.smaller.trend-in-corner .trending {
+    top: -3px;
+    right: -3px;
+  }
+</style>
+<script type="text/javascript">
+setTitle("Gestion des facutres")
+setTimeout(()=>{
+  console.log("Gestion des facutres", document, $(".inline-profile-tiles"))
+},15000)
+function getItem(client,resume){
+  let total = resume.total;
+  let taxe1 = TAXE1;
+  let taxe2 = TAXE2;
+  taxe1 = total*taxe1/100// taxe1
+  taxe2 = total*taxe2/100// taxe2
+  let totalTTC = total + taxe1 + taxe2;
+  let el = $(`<div class="col-6 col-sm-6 col-xxl-3" client="${resume.client}">
+      <a class="element-box el-tablo centered trend-in-corner smaller" href="#">
+        <div class="label">
+          ${client.raison}
+        </div>
+        <div class="value text-info">
+          ${convertToMoney(totalTTC)}
+        </div>
+        <div class="trending trending-up">
+          <span>
+            ${convertToMoney(resume.nbDoc," ","",0,"")} &nbsp;Document${resume.nbDoc > 1 ? "s" : ""}
+          </span>
+        </div>
+      </a>
+    </div>`);
+  el.data(client);
+  return el;
+}
+let update = ()=>{
+  app.dbComptabiliteQuery({
+    map:function(doc){
+      if(/^facture\//i.test(doc._id) && doc.type=='paye'){
+        emit(doc.client || "",{_id:doc.client, facture:doc })
+        }
+    }.toString(),
+    reduce : function(doc,values){
+      try{
+        values = values.reduce((a,b)=> (b._id = b._id || "",(a[b._id] || (a[b._id]=[])).push(b), a) ,{});
+        var ret = [];
+        for(var i in values) {
+          var ii = values[i].reduce((a,b)=>{
+                a+= b.facture.items.reduce((a,b)=>{
+                  a+= (b.montant - b.montant * b.reduction) * b.quantite
+                  return a;
+                },0);
+                return a;
+            },0);
+          ret.push({
+            client : i,
+            total : ii,
+            type  : values[i][0].facture.type,
+            nbDoc : values[i].length
+          });
+        }
+      }catch(e){
+        console.debug(e)
+      }
+      return ret;
+    }.toString()
+  }).then(res=>{
+    $(".inline-profile-tiles > div.row [client]").remove();
+    // $("."+typeOfDocument+"-list").html("");
+    if(res.rows.length == 0){
+      return;
+    }
+    res = res.rows[0].value.sort((a,b)=>{
+      if(a.total > b.total) return -1;
+      else if(a.total < b.total) return 1;
+      else return 0;
+    }).slice(0,5);
+    res.forEach(resume=>{
+      let l = $(loaderHTML);
+      $(".inline-profile-tiles > div.row").append(l);
+      if(resume.client)
+        app.dbComptabiliteGet(resume.client).then(client=>{
+          l.replaceWith(getItem(client,resume))
+        });
+      else
+        l.replaceWith(getItem({raison : "<i>** Sans Client **</i>"},resume));
+    })
+  })
+};
+$(".inline-profile-tiles > div.row").on("click","[client]",function(){
+  let client = $(this).data();
+  app.goto(getLink("views/dash-client.html"),client);
+})
+
+$(".inline-profile-tiles > div.row > div:nth-child(1)").on("click",function(){
+  app.goto(getLink('views/dash.html'));
+})
+$(".inline-profile-tiles > div.row > div:nth-child(2)").on("click",function(){
+  app.goto(getLink('views/c-facture.html?devis=0'));
+})
+$(".inline-profile-tiles > div.row > div:nth-child(3)").on("click",function(){
+  app.goto(getLink('views/c-facture.html?devis=1'));
+})
+update();
+app.dbComptabiliteChanges(changes=>{
+  let doc = changes.doc;
+  if(/^facture\//i.test(doc._id) && doc.type=='paye') // update only if is facture paye
+    update();
+});
+</script>

@@ -1,0 +1,32 @@
+<div class="form-group col-sm-{{field.size if field.size else 12}}">
+  <label for="{{uuid}}"> {{field.label}}</label>
+  {% if field.icon %}
+    <div class="input-group">
+      {% if field.iconPosition !== 'right' %}
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="{{field.icon}}"></i>
+        </div>
+      </div>
+      {% endif %}
+    <input {% if field.attributes %}
+      {% for key,value in field.attributes %}
+        {{key}}="{{value}}"
+      {% endfor %}
+    {% endif %} id="{{uuid}}" value='{{ field.value if field.value }}' name="{{ field.name if field.name else key }}" class="form-control" placeholder="{{field.placeholder}}" type="{{field.type}}">
+      {% if field.iconPosition == 'right' %}
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <i class="{{field.icon}}"></i>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <input {% if field.attributes %}
+      {% for key,value in field.attributes %}
+        {{key}}="{{value}}"
+      {% endfor %}
+    {% endif %} id="{{uuid}}" value='{{ field.value if field.value }}' name="{{ field.name if field.name else key }}" class="form-control" placeholder="{{field.placeholder}}" type="{{field.type}}">
+  {% endif %}
+</div>

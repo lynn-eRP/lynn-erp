@@ -1,0 +1,31 @@
+body * { visibility: hidden; }
+.content-box, body, html, .invoice-w{
+  min-height: 297mm !important;
+  max-height: 297mm !important;
+  height: 297mm !important;
+
+  min-width: 210mm !important;
+  max-width: 210mm !important;
+  width: 210mm !important;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 0;
+}
+.content-box, .content-box *{
+  visibility: visible;
+}
+.editable-click, a.editable-click, a.editable-click:hover {
+    text-decoration: none;
+    border-bottom: none;
+}
+nav.menu,nav.menu * {
+  visibility: hidden;
+}
+
+body.print-page .invoice-w{
+    top: -10mm;
+    left: -10mm;
+}

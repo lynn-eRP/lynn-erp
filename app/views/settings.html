@@ -1,0 +1,134 @@
+{% import "forms.html" as form %}
+{{ setTitle("Parametres") }}
+<div class="element-wrapper">
+    <div class="element-box">
+        {{
+			form.create(size=12, fields={
+				EntrepriseSep : {
+					type : "separator",
+					value : "Entreprise"
+				},
+				section : {
+					type : "row",
+					size : 7,
+					fields : {
+						ENTREPRISE : {
+							type  : 'text',
+							label : "Nom",
+							placeholder : "Nom de l'entreprise",
+							value : app.store.get("ENTREPRISE")
+						},
+						TEL : {
+							type  : 'text',
+							label : "TEL",
+							placeholder : "Numero de telephone",
+							value : app.store.get("TEL")
+						},
+						EMAIL : {
+							type  : 'email',
+							label : "EMAIL",
+							placeholder : "Addresse email",
+							value : app.store.get("EMAIL")
+						}
+					} | push(extends("settings.entreprise"))
+				},
+				LOGO : {
+					size : 5,
+					type  : 'image',
+					label : 'Logo',
+					value : app.store.get("LOGO")
+				},
+				TaxeSep : {
+					type : "separator",
+					value : "Taxes"
+				},
+				TAXE1_NOM : {
+					size : 3,
+					type  : 'text',
+					label : "Nom",
+					value : app.store.get("TAXE1_NOM")
+				},
+				TAXE1 : {
+					size : 7,
+					type  : 'pourcentage',
+					label : "Pourcentage",
+					value : app.store.get("TAXE1")
+				},
+				TAXE1_SUB : {
+					size : 2,
+					type  : 'checkbox',
+					label : "Deductible",
+					vertical : true,
+					checked : app.store.get("TAXE1_SUB")
+				},
+				TAXE2_NOM : {
+					size : 3,
+					type  : 'text',
+					label : "Nom",
+					value : app.store.get("TAXE2_NOM")
+				},
+				TAXE2 : {
+					size : 7,
+					type  : 'pourcentage',
+					label : "Pourcentage",
+					value : app.store.get("TAXE2")
+				},
+				TAXE2_SUB : {
+					size : 2,
+					type  : 'checkbox',
+					label : "Deductible",
+					vertical : true,
+					checked : app.store.get("TAXE2_SUB")
+				},
+				ImportSep : {
+					type : "separator",
+					value : "References"
+				},
+				NIF : {
+					type  : 'text',
+					label : "NIF",
+					placeholder : "Numero statistique / Identification Fiscale",
+					value : app.store.get("NIF")
+				},
+				RCCM : {
+					type  : 'text',
+					label : "RCCM",
+					placeholder : "Registre du commerce",
+					value : app.store.get("RCCM")
+				},
+				BANK : {
+					type  : 'text',
+					label : "BANK",
+					placeholder : "Numero compte baquaire",
+					value : app.store.get("BANK")
+				}
+			} | push(extends("settings")))
+		}}
+    </div>
+</div>
+<script> 
+	$("form").submit(async evt=>{
+		var data = $("form").serializeArray().reduce((a,b)=>{
+			if(b.name in a){
+				// allow handle checkbox
+				a[b.name] = Array.isArray(a[b.name]) ? a[b.name] : [a[b.name]];
+				a[b.name].push(b.value);
+			}else
+	          	a[b.name] = b.value;
+          	return a;
+        },{});
+		if(!data.ENTREPRISE)
+          return error("Le nom ne peut etre vide");
+      	data.TAXE2_SUB = "TAXE2_SUB" in data;
+      	data.TAXE1_SUB = "TAXE1_SUB" in data;
+      	data.TAXE2 = parseFloat(data.TAXE2);
+      	data.TAXE1 = parseFloat(data.TAXE1);
+      	// delete data.LOGO;
+		for(let key in data){
+			app.store.set(key, data[key]);
+		}
+		success("Enregistre");
+		app.trigger("update-settings");
+        return false;
+	})
+</script>

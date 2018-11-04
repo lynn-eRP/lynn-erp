@@ -1,0 +1,173 @@
+{% import "forms.html" as form %}
+<link href="{{getLink('css/c-facture.css')}}" rel="stylesheet">
+<link dark href="{{getLink('css/c-facture-dark.css')}}" rel="stylesheet">
+<link print href="{{getLink('css/c-facture-print.css')}}" rel="stylesheet">
+<center>
+  <div class="row nouv-client">
+    <div class="input-group col-1 text-center">
+      <button class="btn btn-sm btn-outline-primary btn-rounded btn-upper mr-4" href="#" id="goto-client-view" disabled data-title="Voir Fatures" data-toggle="tooltip" style="margin: 0 12px !important;"><i class="os-icon os-icon-home"></i></button>
+    </div>
+    <div class="input-group col-8 text-left">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="os-icon os-icon-user"></i>
+        </div>
+      </div>
+      <select id="mySelect2" class="form-control"></select>
+    </div>
+    <div class="col-3 text-right">
+      <a class="btn btn-sm btn-outline-primary btn-rounded btn-upper mr-4" href="#" id="nouv-client"><i class="os-icon os-icon-user"></i><span>Nouv. Client</span></a>
+    </div>
+  </div>
+
+  <div class="invoice-w invoice-{{ 'devis' if devis == 1 else ('avoir' if devis == 2 else 'facture') }}">
+      <div class="infos">
+        <table class="invoice-date">
+          <tbody><tr><th>Etablit :</th><td id="fait-le"></td></tr>
+          <tr><th>Expire :</th><td id="expire-le"></td></tr>
+        </tbody></table>
+        <div class="invoice-desc">
+          <div class="desc-label"></div>
+          <div class="desc-value"></div>
+        </div>
+        <div class="info-1">
+          {% include getLink("views/facture-header.html") %}
+        </div>
+        <div class="info-2">
+          <div class="company-name client-name"></div>
+          <div class="company-address client-address"></div>
+        </div>
+      </div>
+      <div class="invoice-heading">
+        <h1 id="libelle"></h1>
+      </div>
+      <div class="invoice-body">
+        <div class="invoice-table">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-center index-line" width="20px">
+                  #
+                </th>
+                <th class="text-left">
+                  Libelle
+                </th>
+                <th class="text-right">
+                  Prix Unitaire
+                </th>
+                <th class="text-center">
+                  Quantite
+                </th>
+                <th class="text-center">
+                  Reduction
+                </th>
+                <th class="text-right">
+                  Prix Total
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="d-print-none add-line"><td colspan="6" align="center">
+                {% set actions = {
+                    "new-line" : {type : 'info',icon : 'fa fa-plus', title:"Ajouter"}
+                } | push(extends("facture.actions")) %}
+                {% for actionId, action in actions %}
+                  {% if  (action | is('object')) and (action | has('icon')) %}
+                    {% set actionIcon = action.icon %}
+                  {% elseif action | is('string') %}
+                    {% set actionIcon = action %}
+                  {% else %}
+                    {% set actionIcon = '' %}
+                  {% endif %}
+                  {% if  (action | is('object')) and (action | has('type')) %}
+                    {% set actionType = action.type %}
+                  {% else %}
+                    {% set actionType = 'link-action' %}
+                  {% endif %}
+                  {% if  (action | is('object')) and (action | has('title')) %}
+                    {% set actionTitle = action.title %}
+                  {% else %}
+                    {% set actionTitle = '' %}
+                  {% endif %}
+                  {% if actionIcon %}
+                    {{ form.button(actionId, '<i class="'+actionIcon+'"></i>',size='small',rounded=true,outline=true, type=actionType,attributes = {
+                        'link-action': actionId,
+                        'data-title' : actionTitle,
+                        'data-toggle': 'tooltip'
+                      }) }}
+                  {% endif %}
+                {% endfor %}
+              </td></tr>
+              <tr class="sous-total sous-total-taxes">  
+                <td class="index-line"></td>
+                <td class="text-right" colspan="4">
+                  Sous total
+                </td>
+                <td class="text-right montant" colspan="1">
+                  0 FCFA
+                </td>
+              </tr>
+              <tr class="taxe1 sous-total-taxes">  
+                <td class="index-line"></td>
+                <td class="text-right" colspan="4">
+                  &nbsp;<span class="taxe-nom">{{app.store.get("TAXE1_NOM") if app.store.get("TAXE1")}}</span>
+                </td>
+                <td class="text-right montant" colspan="1">{{ '0 FCFA' if app.store.get("TAXE1") }}</td>
+              </tr>
+              <tr  class="taxe2 sous-total-taxes">  
+                <td class="index-line"></td>
+                <td class="text-right" colspan="4">
+                  &nbsp;<span class="taxe-nom">{{app.store.get("TAXE2_NOM") if app.store.get("TAXE2")}}</span>
+                </td>
+                <td class="text-right montant" colspan="1">{{ '0 FCFA' if app.store.get("TAXE2") }}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>  
+                <td class="index-line"></td>
+                <td class="text-right" colspan="5">
+                  <span class="float-left">Total</span> <span class="float-right total">0 FCFA</span>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+      <div class="terms">
+        <div class="terms-header">
+          Conditions Generales
+          <form class="form-inline justify-content-sm-end d-print-none">
+            <select id="terms-align" class="form-control form-control-sm fa">
+              <option value="left">&#xf036;</option>
+              <option value="center">&#xf037;</option>
+              <option value="right">&#xf038;</option>
+            </select>
+          </form>
+        </div>
+        <div class="terms-content">
+          <p></p>
+          <p></p>
+          <p></p>
+          <p></p>
+          <p></p>
+        </div>
+      </div>
+      <div class="invoice-footer">
+        {% include getLink("views/facture-footer.html") %}
+      </div>
+      <bg></bg>
+    </div>
+</center>
+<svg-menu orientation="v">
+  <menu-item action="save-facture" label="Sauvegarder" icon="save"></menu-item>
+  <menu-item action="delete-facture" label="Supprimer" icon="trash"></menu-item>
+  <!-- <menu-item action="print" label="Print" icon="print"></menu-item> -->
+  <menu-item action="print-pdf" label="Export to PDF" icon="file-pdf-o"></menu-item>
+  <menu-item action="print-bon" label="Voir bons" icon="file-o"></menu-item>
+  <menu-item action="{{ 'set-facture' if devis == 1 else 'set-payer' }}" label="{{ 'Changer en facture' if devis == 1 else 'Facture paye' }}" icon="usd"></menu-item>
+  <menu-item action="update-taxe" label="Mettre a jour les taxes" icon="refresh"></menu-item>
+  <!-- <menu-item action="cancel-doc" label="Annuler {{ 'devis' if devis == 1 else 'facture' }}" icon="ban"></menu-item>
+  <menu-item action="cancel-doc" label="Annuler {{ 'devis' if devis == 1 else 'facture' }}" icon="ban"></menu-item>
+  <menu-item action="cancel-doc" label="Annuler {{ 'devis' if devis == 1 else 'facture' }}" icon="ban"></menu-item> -->
+</svg-menu>
+<script type="text/javascript" src="{{ getLink('js/c-facture.js') }}"></script>

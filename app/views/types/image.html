@@ -1,0 +1,96 @@
+<div class="form-group col-{{field.size if field.size else 12}}">
+  <label> {{field.label}}</label>
+  <input id="{{uuid}}" type="hidden" value='{{ field.value if field.value }}' name="{{ field.name if field.name else key }}"/>
+  <table width="100%" height="100%">
+    <tr>
+      <td align="center" id="{{uuid}}-logo" valign="middle" style="
+        background-image: url('{{ field.value if field.value else 'img/portfolio15.jpg' }}');
+        background-size : 216px;
+        background-repeat: no-repeat;
+        background-position: center;
+      ">
+        <button class="mr-2 mb-2 btn btn-lg btn-white btn-outline-success btn-rounded" id="{{uuid}}-button" type="button"> <i class="fa fa-camera"></i></button>
+        <input style="display:none" type="file" file  id="{{uuid}}-image" accept=".jpg, .jpeg, .png"/> 
+    </td>
+    </tr>
+  </table>
+  <script type="text/javascript">
+    var fileTypes = [
+      'image/jpeg',
+      'image/pjpeg',
+      'image/png'
+    ];
+    function validFileType(file) {
+      for(var i = 0; i < fileTypes.length; i++) {
+        if(file.type === fileTypes[i]) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+    let init=()=>{
+      if($("#{{uuid}}").length == 0)
+        return setTimeout(init,10);
+
+      $("#{{uuid}}-image").change(ev=>{
+        ev.preventDefault();
+        let input = $("#{{uuid}}-image").get(0);
+        if(input.files.length){
+          if(!validFileType(input.files[0])) return;
+          var reader = new FileReader;
+          reader.onerror = function(){
+            showError("Image non chargée","error",true);
+          }
+          reader.onloadend = function(evt){
+            var img = new Image(), yStart, xStart, renderableHeight, renderableWidth;   // Create new img element
+            img.addEventListener('load', async function() {
+              // execute drawImage statements here
+              // Create canvas element
+              let canvas = $('<canvas></canvas>').get(0), size = 256;
+              var imageAspectRatio = img.width / img.height;
+              // Draw image to canvas
+              if(imageAspectRatio < 1) {
+                renderableHeight = size;
+                renderableWidth = img.width * (renderableHeight / img.height);
+                xStart = (size - renderableWidth) / 2;
+                yStart = 0;
+              } else if(imageAspectRatio > 1) {
+                renderableWidth = size
+                renderableHeight = img.height * (renderableWidth / img.width);
+                xStart = 0;
+                yStart = (size - renderableHeight) / 2;
+              } else {
+                renderableHeight = size;
+                renderableWidth = size;
+                xStart = 0;
+                yStart = 0;
+              } 
+              canvas.width = renderableWidth;
+              canvas.height = renderableHeight;
+              // ctx.drawImage(img, xStart, yStart, renderableWidth, renderableHeight);
+              await (new pica({ features: [ 'wasm', 'ww', 'js' ] })).resize(img, canvas,{
+                  alpha : true,
+                  unsharpAmount : 100,
+                  quality : 1
+                });
+              CANVAS = canvas; IMG = img;
+              let result = canvas.toDataURL("image/png");
+              $("#{{uuid}}").val(result);
+              $("#{{uuid}}-logo").css("background-image",`url('${result}')`);
+              showError("Image chargée","success",true);
+            }, false);
+            img.src = reader.result; // Set source path
+          }
+          showError("Chargement de l'image...","loading",false);
+          reader.readAsDataURL(input.files[0]);
+        }
+      })
+      $("#{{uuid}}-button").click(ev=>{
+        ev.preventDefault();
+        $("#{{uuid}}-image").get(0).click();
+      })
+    }
+    init()
+  </script>
+</div>

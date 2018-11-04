@@ -1,0 +1,153 @@
+{% import "table.html" as table %}
+{% import "forms.html" as forms %}
+{{ setTitle("Gestion des utilisateurs") }}
+<div class="element-wrapper">
+    <h6 class="element-header">
+        {{ forms.button('c-user', 'Creer utilisateur', href='auth:views/c-user.html',attributes={
+            style : 'display:none' if not canDo('users/create')
+        }) }}
+    </h6>
+    <div class="element-box">
+        {{
+            table.create(id= 'gest-user',columns= [{
+                orderable : true,
+                searchable : false,
+                data : 'inactive',
+                render : 'return `<div class="status-pill ${ row.inactive ? "red" : "green" }" data-title="${row.inactive ? "Inactif" : "Actif"}" data-toggle="tooltip">`' 
+            },{
+                title: "Nom",
+                data : "firstName"
+            }, {
+                title: "Prenom",
+                data : "lastName"
+            }, { 
+                title: "Login",
+                data : "login" 
+            }, { 
+                title: "Email",
+                data : "email" 
+            }], db = 'dbUsers', selector = {
+                _id : {$regex : "^user/"}
+            }, actions = {
+                doc : {icon : 'icon-doc', title:"Editer"},
+                cup : {icon : 'icon-cup', title:"Reinitialiser Mot de passe"},
+                trash : {type : 'danger', icon : 'icon-trash', title : "Supprimer"},
+                toogleActive : {type : 'secondary', icon : 'fa fa-eye-slash', title : 'Active/Inactive'}
+            })
+        }}
+    </div>
+    <script type="text/javascript">
+        $("#gest-user").on("click::toogleActive",function(evt,doc, row, table){
+            if(!app.canDo("users/active"))
+                return error("Action impossible","Droits Insufisant !");
+            if(app.locales.user._id == doc._id){
+                return error("Desactivation impossible","Desactivation de l'utilisateur courant est interdite")
+            }
+            if(doc.root){
+                return error("Desactivation impossible","Desactivation du super administrateur interdite")
+            }
+            console.log('click::toogleActive',arguments)
+            swal({
+              title: 'Etes vous sure?',
+              html: `Voulez-vous ${doc.inactive ? "activer" : "desactiver"} <b>${doc.login}</b> ?` ,
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: `Oui ${doc.inactive ? "activer" : "desactiver"}!`,
+              cancelButtonText : 'Non'
+            }).then((result) => {
+              if (result.value) {
+                doc.inactive = !doc.inactive;
+                doc.mtime = Date.now();
+                doc.updatedBy = app.locales.user._id;
+                app.dbUsersPut(doc).then((docRev)=>{
+                    swal(
+                      `${!doc.inactive ? "Activation" : "Desactivation"}`,
+                      `<b>${doc.login}</b> a bien ete ${!doc.inactive ? "activer" : "desactiver"}`,
+                      'success'
+                    );
+                    doc._rev = docRev.rev;
+                    row.data(doc).draw();
+                });
+                
+              }
+            })
+        });
+        $("#gest-user").on("click::trash",function(evt,doc, row, table){
+            if(!app.canDo("users/delete"))
+                return error("Action impossible","Droits Insufisant !");
+            if(app.locales.user._id == doc._id){
+                return error("Suppression impossible","Suppression de l'utilisateur courant interdite")
+            }
+            if(doc.root){
+                return error("Suppression impossible","Suppression du super administrateur interdite")
+            }
+            swal({
+              title: 'Etes vous sure?',
+              html: `Voulez-vous supprimer <b>${doc.login}</b> ?` ,
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: `Oui supprimer !`,
+              cancelButtonText : 'Non'
+            }).then((result) => {
+              if (result.value) {
+                doc._deleted = true;
+                doc.mtime = Date.now();
+                doc.updatedBy = app.locales.user._id;
+                app.dbUsersPut(doc).then((docRev)=>{
+                    swal(
+                      `Suppression`,
+                      `<b>${doc.login}</b> a bien ete supprimer`,
+                      'success'
+                    );
+                    doc._rev = docRev.rev;
+                    row.remove().draw();
+                });
+                
+              }
+            })
+        });
+        $("#gest-user").on("click::cup",function(evt,doc, row, table){
+            if(!app.canDo("users/reset-pwd"))
+                return error("Action impossible","Droits Insufisant !");
+            if(app.locales.user._id == doc._id){
+                return error("Modification impossible","Modification de l'utilisateur courant est interdite")
+            }
+            swal({
+              title: 'Etes vous sure?',
+              html: `Voulez-vous reinitialiser le mot de passe de <b>${doc.login}</b> ?` ,
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: `Oui reinitialiser !`,
+              cancelButtonText : 'Non'
+            }).then((result) => {
+              if (result.value) {
+                doc.mtime = Date.now();
+                doc.updatedBy = app.locales.user._id;
+                doc.uuid = '{{ generateUUID() }}';
+                doc.password = sha256(localStorage.defaultPassword || 'secret',doc.uuid);
+                app.dbUsersPut(doc).then((docRev)=>{
+                    swal(
+                      `Reinitialisation`,
+                      `Le mode passe de <b>${doc.login}</b> a bien ete reinitialiser`,
+                      'success'
+                    );
+                    doc._rev = docRev.rev;
+                    row.data(doc).draw();
+                });
+                
+              }
+            })
+        });
+        $("#gest-user").on("click::doc",function(evt,doc){
+            if(!app.canDo("users/update"))
+                return error("Action impossible","Droits Insufisant !");
+            app.goto('auth:views/c-user.html',doc);
+        });
+    </script>
+</div>

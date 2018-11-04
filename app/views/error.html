@@ -1,0 +1,7 @@
+<script type="text/javascript">
+  swal({
+    title : '{{ data.msg }}',
+    type : 'error',
+    allowOutsideClick : false,
+  }) {{ '.then(()=>exitApp())' if data.exit != 0 }};
+</script>

@@ -1,0 +1,53 @@
+{% macro create(layout='', title='', description='', fields=[], size=12, submit='Valider') %}
+<div class="col-lg-{{size}}">
+    <div class="element-wrapper">  
+      {% if title %}<h6 class="element-header">{{ title }}</h6>{% endif %}
+      <div class="element-box">
+        <form  class="row {{ 'form-inline' if layout=='inline' }}" onsubmit="return false;">
+	        {% if title %}<h5 class="form-header">{{ title }}</h5>{% endif %}
+	        {% if description %}<div class="form-desc">{{ description }}</div>{% endif %}
+          {% for key,field in fields %}
+            {% includeWith ['types/'+field.type+'.html','types/default.html'] with {
+              fields : fields,
+              field: field,
+              key: key,
+              uuid : generateUUID()
+            } ignore empty %}
+          {% endfor %}
+          <div class="form-buttons-w col-sm-12">
+            <button class="btn btn-primary" type="submit"> {{submit | safe }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro input(label, placeholder,type='text') %}
+<div class="form-group row">
+	<label class="col-form-label col-sm-4" for="">{{label}}</label>
+	<div class="col-sm-8">
+	  <input class="form-control" placeholder="{{placeholder}}" type="text">
+	</div>
+</div>
+{% endmacro %}
+
+{% macro button(id,label,href='',type='',rounded=false, outline=true,size='', attributes = {}) %}
+  <button
+    id='{{id}}'
+    {% if href %}
+    onclick="app.goto('{{href}}')"
+    {% endif %}
+    {% for key,value in attributes %}
+      {{key}}="{{value}}"
+    {% endfor %}
+    class="btn 
+      btn-{{ type if type else 'white' }} 
+      {{ 'btn-rounded' if rounded }} 
+      {{ ('btn-outline-'+type) if type and outline else ('btn-outline-primary' if outline)}} 
+      {{ 'btn-lg' if size=='large' else ('btn-sm' if size == 'small' else ('btn-rounded' if size == 'rounded')) }}
+      
+    "
+    type="button"
+  > {{label | safe }}</button>
+{% endmacro %}

@@ -1,0 +1,70 @@
+{{ setTitle("Gestion roles utilisateurs") }}
+{% import "table.html" as table %}
+{% import "forms.html" as forms %}
+<div class="element-wrapper">
+    <h6 class="element-header">
+        {{ forms.button('c-role', 'Nouveau role', href='auth:views/c-role.html') }}
+    </h6>
+    <div class="element-box">
+        {{
+            table.create(id= 'gest-role',columns= [{
+                orderable : false,
+                searchable : false,
+                render : 'return `<b>#${settings.row}</b>`' 
+            },{
+                title: "Nom",
+                data : "role"
+            }], db = 'dbUsers', selector = {
+                _id : {$regex : "^role/"}
+            }, actions = {
+                doc : {icon : 'icon-doc', title:"Editer"},
+                trash : {type : 'danger', icon : 'icon-trash', title : "Supprimer"}
+            })
+        }}
+    </div>
+    <script type="text/javascript">
+        $("#gest-role").on("click::trash",async function(evt,doc, row, table){
+        	let count = (await app['dbUsersFind']({
+			    selector: {
+			    	"roles":{
+			    		"$in":[doc._id]
+			    	}
+			    },
+			    limit : 1,
+			    fields : ['_id']
+			})).docs.length;
+            if(count){
+                return error("Suppression impossible","Un ou plusieurs utilisateurs lies a ce role");
+            }
+            swal({
+              title: 'Etes vous sure?',
+              html: `Voulez-vous supprimer <b>${doc.role}</b> ?` ,
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: `Oui supprimer !`,
+              cancelButtonText : 'Non'
+            }).then((result) => {
+              if (result.value) {
+                doc._deleted = true;
+                doc.mtime = Date.now();
+                doc.updatedBy = app.locales.user._id;
+                app.dbUsersPut(doc).then((docRev)=>{
+                    swal(
+                      `Suppression`,
+                      `<b>${doc.role}</b> a bien ete supprimer`,
+                      'success'
+                    );
+                    doc._rev = docRev.rev;
+                    row.remove().draw();
+                });
+                
+              }
+            })
+        });
+        $("#gest-role").on("click::doc",function(evt,doc){
+            app.goto('auth:views/c-role.html',doc);
+        });
+    </script>
+</div>

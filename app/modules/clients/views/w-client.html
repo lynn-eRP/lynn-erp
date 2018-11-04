@@ -1,0 +1,43 @@
+<div class="inline-profile-tiles">
+  <div class="row">
+  	<div class="col-3 col-sm-2 col-xxl-1">
+      <a class="element-box el-tablo centered trend-in-corner smaller" href="#">
+        <div class="label">
+          Liste
+        </div>
+        <div class="value">
+          <i class="dashicons dashicons-list-view"></i>
+        </div>
+      </a>
+    </div>
+    <div class="col-3 col-sm-2 col-xxl-1">
+      <a class="element-box el-tablo centered trend-in-corner smaller" href="#">
+        <div class="label">
+          Nouveau
+        </div>
+        <div class="value text-success">
+          <i class="fa fa-plus-circle"></i>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  .inline-profile-tiles .row .element-box .label,.inline-profile-tiles .row .element-box .value{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .el-tablo.smaller.trend-in-corner .trending {
+    top: -3px;
+    right: -3px;
+  }
+</style>
+<script type="text/javascript">
+$(".inline-profile-tiles > div.row > div:nth-child(1)").on("click",function(){
+  app.goto(getLink('views/gest-client.html'));
+})
+$(".inline-profile-tiles > div.row > div:nth-child(2)").on("click",function(){
+  app.goto(getLink('views/c-client.html'));
+})
+</script>

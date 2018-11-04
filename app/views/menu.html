@@ -1,0 +1,64 @@
+{% bind "menu" %}
+{% set menuFiltered = safeMenu() %}
+<ul class="main-menu">
+  {% for menuId,m in menuFiltered %}
+    <li class="sub-header">
+      <span>{{m.title}}</span>
+    </li>
+    {% for key,n in m.items %}
+      {% if n.type == 'menu' %}
+      <li item-id="{{menuId+'/'+key}}" class="has-sub-menu {{ 'active' if options.actif == (menuId+'/'+key) }}">
+        <a >
+          {% if n.icon %}<div class="icon-w">
+            <div class="{{ n.icon }}"></div>
+          </div>{% endif %}
+          <span>{{ n.title }}</span>
+          {% if n.badge %}
+            <strong class="badge badge-{{ n.badgeColor if n.badgeColor else 'danger'}}">{{n.badge | truncate(3, true, "+")}}</strong>
+          {% endif %}
+        </a>
+        <div class="sub-menu-w">
+          <div class="sub-menu-header">
+            {{ n.title }}
+          </div>
+          {% if n.icon %}<div class="sub-menu-icon">
+            <i class="{{ n.icon }}"></i>
+          </div>{% endif %}
+          <div class="sub-menu-i">
+            <ul class="sub-menu">
+              {% for key,i in  n.items %}<li>
+                <a href="{{ i.view }}" rel="{{i.type}}">
+                  {{ i.title }}
+                  {% if i.badge %}
+                    <strong class="badge badge-{{ i.badgeColor if i.badgeColor else 'danger'}}">{{i.badge | truncate(3, true, "+")}}</strong>
+                  {% endif %}
+                </a>
+              </li>{% endfor %}
+            </ul>
+          </div>
+        </div>
+      </li>
+      {% elif n.type == 'page' or n.type == 'modal' %}
+      <li>
+        <a href="{{ n.view }}" rel="{{n.type}}">
+          <div class="icon-w">
+            <div class="{{ n.icon }}"></div>
+          </div>
+          <span>{{ n.title }} +</span>
+          {% if n.badge %}
+            <strong class="badge badge-{{ n.badgeColor if n.badgeColor else 'danger'}}">{{n.badge | truncate(3, true, "+")}}</strong>
+          {% endif %}
+        </a>
+      </li>
+      {% endif %}
+    {% endfor %}  
+  {% endfor %}
+{% endbind %}
+<li class="">
+  <a href="layouts_menu_top_image.html">
+    <div class="icon-w">
+      <div class="os-icon os-icon-layers"></div>
+    </div>
+    <span>Menu Styles</span></a>
+</li>
+</ul>

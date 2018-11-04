@@ -1,0 +1,32 @@
+/*.invoice-w bg:after{
+  background-color: rgba(255, 255, 255, 0.05);
+}*/
+.content-box {
+  --menu-btn-color: #ccd9e8;
+  --menu-icon-color: #293145;
+}
+.nouv-client{
+  background: #ccd9e8;
+}
+
+
+.nouv-client .btn-outline-primary {
+  color: #293145;
+  background-color: #ccd9e8;
+  border-color: #293145;
+}
+.nouv-client .btn-outline-primary:hover {
+  color: #ccd9e8;
+  background-color: #293145;
+  border-color: transparent;
+}
+.nouv-client .input-group > .input-group-prepend > .input-group-text {
+    background: #293145;
+    color: #ccd9e8;
+}
+.nouv-client .select2-selection {
+  border-color: #293145 !important;
+}
+.nouv-client .select2-results__option{
+  color : #ccd9e8;
+}

@@ -1,0 +1,91 @@
+{% import "forms.html" as form %}
+{{ setTitle(("Modifier : <b>"+ raison +"</b>") if _id else "Nouveau client") }}
+{% if not isModal %}
+<div class="element-wrapper">
+    <h6 class="element-header">
+        {{ form.button(generateUUID(), '<i class="icon-home"></i>', href=getLink('views/gest-client.html'),attributes={
+            style : 'display:none' if not canDo('client/create','client/update','client/delete','client/dash')
+        }) }}
+    </h6>
+    <div class="element-box">
+{% endif %}
+        {{
+			form.create(size=12, fields={
+				raison : {
+					type  : 'text',
+					label : 'Nom',
+					placeholder : 'Raison Social / Nom',
+					value : raison,
+					attributes : {
+						required : "required"
+					} | push({
+						readonly : 'readonly'
+					}  if _id and raison else {}) 
+				},
+				email : {
+					type  : 'email',
+					label : 'Email',
+					placeholder : 'Adresse email',
+					size : 6,
+					value : email
+				},
+				telephone : {
+					type  : 'tel',
+					label : 'Telephone',
+					placeholder : 'Numero de telephone',
+					size : 6,
+					value : adresse
+				},
+				adresse : {
+					type  : 'text',
+					label : 'Adresse',
+					placeholder : 'Adresse',
+					value : adresse
+				}
+			} | push(extends("client")))
+		}}
+{% if not isModal %}
+    </div>
+</div>
+{% endif %}
+<script> 
+	$("form").submit(async evt=>{
+		var data = $("form").serializeArray().reduce((a,b)=>{
+          a[b.name] = b.value.trim();
+          return a;
+        },{});
+		if(!data.raison)
+          return error("Le nom ne peut etre vide");
+
+		{% if _id %}
+			data.mtime = Date.now();
+			data.updatedBy = app.locales.user._id;
+			data._id = '{{_id}}';
+			data._rev = '{{_rev}}';
+		{% else %}
+			data.ctime = Date.now();
+			data.createdBy = app.locales.user._id;
+		{% endif %}
+		try{
+			{% if _id %}
+				let doc = await app.dbComptabiliteGet('{{ _id }}');
+				data = {...doc, ...data};
+			{% endif %}
+			data = {
+				_id : `client/${data.raison}`,
+				...data
+			};
+			await app.dbComptabilitePut(data);
+			await success();
+			{% if isModal %}
+				sendResult(data);
+			{% else %}
+				app.goto(getLink('views/gest-client.html')) ;
+			{% endif %}
+		}catch(e){
+			console.log("Error",e)
+			error(e.message);
+		}
+        return false;
+	})
+</script>

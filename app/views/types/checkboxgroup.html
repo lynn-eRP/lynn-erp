@@ -1,0 +1,6 @@
+<fieldset class="form-group col-sm-12">
+  <legend><span>{{field.label}}</span></legend>
+  {% for item in field.items %}
+    {% includeWith "types/checkboxlist.html" with {field:item | push({value: field.value}), key : key} %}
+  {% endfor %}
+</fieldset>

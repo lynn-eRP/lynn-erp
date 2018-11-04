@@ -1,0 +1,12 @@
+<div class="invoice-logo-w">
+  <img alt="" src="{{ app.store.get('LOGO') }}">
+</div>
+<div class="company-name">
+  {{ app.store.get("ENTREPRISE") }}
+</div>
+<div class="company-address">
+  Bp. {{ app.store.get("BP") }}<br>
+  Email. {{ app.store.get("EMAIL") }}<br>
+  Tel. {{ ( app.store.get("TEL") | explode(r/(-|–)/) ).join("<br>") | safe}}
+</div>
+<div class="company-extra"></div>

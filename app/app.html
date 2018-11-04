@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lynn ERP</title>
+    <script>
+      window.nodeRequire = require;
+      delete window.require;
+      delete window.exports;
+      delete window.module;
+    </script>
+    <meta charset="utf-8">
+    <meta content="ie=edge" http-equiv="x-ua-compatible">
+    <meta content="template language" name="keywords">
+    <meta content="Tamerlan Soziev" name="author">
+    <meta content="Admin dashboard html template" name="description">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="favicon.png" rel="shortcut icon">
+    <link href="apple-touch-icon.png" rel="apple-touch-icon">
+    <link rel="preload" href="icon_fonts_assets/simple-line-icons/fonts/Simple-Line-Icons.woff2?v=2.4.0" as="font">
+    <link rel="preload" href="fonts/rubik-v7-latin-500.woff2" as="font">
+    <link href="css/rubik.css" rel="stylesheet" type="text/css">
+    <link href="css/sweetalert2.css" rel="stylesheet" type="text/css">
+    <link href="bower_components/select2/dist/css/select2.min.css" rel="stylesheet">
+    <link href="bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="bower_components/dropzone/dist/dropzone.css" rel="stylesheet">
+    <link href="bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="bower_components/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
+    <link href="bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css" rel="stylesheet">
+    <link href="bower_components/slick-carousel/slick/slick.css" rel="stylesheet">
+    <link href="js/lib/toast-popup/toast.style.css" rel="stylesheet">
+    <link href="css/pretty-checkbox.css" rel="stylesheet">
+    <link href="bower_components/dragula.js/dist/dragula.min.css" rel="stylesheet">
+    <link href="css/main.css?version=4.4.0" rel="stylesheet">
+    <style type="text/css">/* Chart.js */
+      @-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}
+      @media print {
+        .content-box{
+          visibility: visible;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: -webkit-fill-available;
+          height: -webkit-fill-available;
+          z-index: 10000000000000000000000;
+        }
+      }
+    </style>
+    <style type="text/css">
+      /* import icon class */
+      @import url("icon_fonts_assets/simple-line-icons/css/simple-line-icons.css");
+      @import url("icon_fonts_assets/typicons/typicons.css");
+      @import url("icon_fonts_assets/feather/style.css");
+      @import url("icon_fonts_assets/themefy/themify-icons.css");
+      @import url("icon_fonts_assets/picons-thin/style.css");
+      @import url("icon_fonts_assets/dripicons/webfont.css");
+      @import url("icon_fonts_assets/eightyshades/style.css");
+      @import url("icon_fonts_assets/entypo/style.css");
+      @import url("icon_fonts_assets/font-awesome/css/font-awesome.min.css");
+      @import url("icon_fonts_assets/foundation-icon-font/foundation-icons.css");
+      @import url("icon_fonts_assets/metrize-icons/style.css");
+      @import url("icon_fonts_assets/picons-social/style.css");
+      @import url("icon_fonts_assets/batch-icons/style.css");
+      @import url("icon_fonts_assets/dashicons/dashicons.css");
+      @import url("icon_fonts_assets/typicons/typicons.css");
+      @import url("icon_fonts_assets/weather-icons/css/weather-icons.min.css");
+    </style>
+  </head>
+  <body class="menu-position-side menu-side-left full-screen with-content-panel">
+    <div id="loader-wrapper">
+      <div class="top-icon">
+        <i win="close" rel="window" class="icon-close"></i>
+      </div>
+      <div class="logo">
+        <div class="logo-element"></div>
+        <div class="logo-label">
+          Lynn ERP  
+        </div>
+      </div>
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+    </div>
+    <div class="all-wrapper with-side-panel solid-bg-all">
+      <div class="search-with-suggestions-w">
+        <div class="search-with-suggestions-modal">
+          <div class="element-search">
+            <input class="search-suggest-input" placeholder="Start typing to search..." type="text">
+              <div class="close-search-suggestions">
+                <i class="os-icon os-icon-x"></i>
+              </div>
+            </input>
+          </div>
+          <div class="search-with-suggestions-content" style="
+              height: calc(100% - 38px);
+              overflow: auto;
+              padding: 5px 20px 0 20px;
+          "></div>
+        </div>
+      </div>
+      <div class="layout-w">
+        <!--------------------
+        START - Mobile Menu
+        -------------------->
+        <!-- <div class="menu-mobile menu-activated-on-click color-scheme-dark">
+          <div class="mm-logo-buttons-w">
+            <a class="mm-logo" href="index.html"><img src="img/logo.png"><span></span></a>
+            <div class="mm-buttons">
+              <div class="content-panel-open">
+                <div class="os-icon os-icon-grid-circles"></div>
+              </div>
+              <div class="mobile-menu-trigger">
+                <div class="os-icon os-icon-hamburger-menu-1"></div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <!--------------------
+        END - Mobile Menu
+        --------------------><!--------------------
+        START - Main Menu
+        -------------------->
+        <div class="menu-w selected-menu-color-light menu-has-selected-link menu-activated-on-click color-scheme-light color-style-transparent sub-menu-color-light menu-position-side menu-side-left menu-layout-compact sub-menu-style-inside d-print-none">
+          <div class="logo-w">
+            <a class="logo" href="index.html">
+              <div class="logo-element"></div>
+              <div class="logo-label">
+                Lynn ERP  
+              </div>
+            </a>
+          </div>
+          <div class="logged-user-w avatar-inline">
+            <div class="logged-user-i">
+              <div class="avatar-w">
+                <img class="entreprise-logo" src="img/avatar1.jpg">
+              </div>
+              <div class="logged-user-info-w">
+                <div class="logged-user-name"></div>
+                <div class="logged-user-role"></div>
+              </div>
+            </div>
+          </div>
+          <div class="menu-actions">
+            <div class="top-icon" onclick="setTitle('',$('.title-box'));$('.content-box').css('visibility','hidden')">
+              <i class="os-icon os-icon-home"></i>
+            </div>
+            <!--
+            START - Settings Link in secondary top menu
+            -->
+            <div class="top-icon top-settings" onclick="app.goto('settings.html')">
+              <i class="os-icon os-icon-ui-46"></i>
+            </div>
+            <!--
+            END - Settings Link in secondary top menu
+            -->
+          </div>
+          <div class="element-search autosuggest-search-activator">
+            <input placeholder="Start typing to search..." type="text">
+          </div>
+          <!-- <h1 class="menu-page-header">
+            Page Header
+          </h1> -->
+          <ul class="main-menu"></ul>
+        </div>
+        <!--------------------
+        END - Main Menu
+        -------------------->
+        <div class="content-w">
+          <!--------------------
+          START - Top Bar
+          -------------------->
+          <div class="top-bar color-scheme-transparent d-print-none">
+            <div class="title-box"></div>
+            <!--------------------
+            START - Top Menu Controls
+            -------------------->
+            <div class="top-menu-controls">
+              <!--------------------
+              START - MessagesClose Btn Link
+              -------------------->
+              <div class="top-icon">
+                <i win="minimize" class="icon-minus"></i>
+                <i win="isMaximized|unmaximize|maximize" class="icon-plus"></i>
+                <i win="close" rel="window" class="icon-close"></i>
+              </div>
+              <!--------------------
+              END - Close Btn Link
+              -------------------->
+            </div>
+            <!--------------------
+            END - Top Menu Controls
+            -------------------->
+          </div>
+          <!--------------------
+          END - Top Bar
+          -------------------->
+          <div class="content-i">
+            <div class="content-box"></div>
+            <div class="widget-box d-print-none"></div>
+          </div>
+        </div>
+      </div>
+      <div class="display-type d-print-none"></div>
+    </div>
+    <!--------------------
+    START - Color Scheme Toggler
+    -------------------->
+    <div class="floated-colors-btn second-floated-btn d-print-none">
+      <div class="os-toggler-w">
+        <div class="os-toggler-i">
+          <div class="os-toggler-pill"></div>
+        </div>
+      </div>
+    </div>
+    <!--------------------
+    END - Color Scheme Toggler
+    -------------------->
+    <template id="modal-box">
+      <div aria-hidden="true" class="modal fade modal-box" role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title"></h5>
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> &times;</span></button>
+            </div>
+            <div class="modal-body"></div>
+          </div>
+        </div>
+      </div>
+    </template>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="js/jquery.mockjax.min.js"></script>
+    <script src="bower_components/popper.js/dist/umd/popper.min.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/chart.js/dist/Chart.min.js"></script>
+    <script src="bower_components/select2/dist/js/select2.full.min.js"></script>
+    <script src="bower_components/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
+    <script src="bower_components/ckeditor/ckeditor.js"></script>
+    <script src="bower_components/bootstrap-validator/dist/validator.min.js"></script>
+    <script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="bower_components/ion.rangeSlider/js/ion.rangeSlider.min.js"></script>
+    <script src="bower_components/dropzone/dist/dropzone.js"></script>
+    <script src="bower_components/editable-table/mindmup-editabletable.js"></script>
+    <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+    <script src="bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
+    <script src="bower_components/tether/dist/js/tether.min.js"></script>
+    <script src="bower_components/slick-carousel/slick/slick.min.js"></script>
+    <script src="bower_components/bootstrap/js/dist/util.js"></script>
+    <script src="bower_components/bootstrap/js/dist/alert.js"></script>
+    <script src="bower_components/bootstrap/js/dist/button.js"></script>
+    <script src="bower_components/bootstrap/js/dist/carousel.js"></script>
+    <script src="bower_components/bootstrap/js/dist/collapse.js"></script>
+    <script src="bower_components/bootstrap/js/dist/dropdown.js"></script>
+    <script src="bower_components/bootstrap/js/dist/modal.js"></script>
+    <script src="bower_components/bootstrap/js/dist/tab.js"></script>
+    <script src="bower_components/bootstrap/js/dist/tooltip.js"></script>
+    <script src="bower_components/bootstrap/js/dist/popover.js"></script>
+    <script src="js/lib/toast-popup/toast.script.js"></script>
+    <script src="js/lib/toast-notification/toast.js"></script>
+    <script src="js/dataTables.bootstrap4.min.js"></script>
+    <script src="js/pica.min.js"></script>
+    <script src="js/sweetalert2.all.js"></script>
+    <script src="bower_components/dragula.js/dist/dragula.min.js"></script>
+    <link href="js/lib/bootstrap4-editable/css/bootstrap-editable.css" rel="stylesheet">
+    <script src="js/lib/bootstrap4-editable/js/bootstrap-editable.min.js"></script>
+    
+    <script type="text/javascript" src="js/x-tag-raw.min.js"></script> 
+    <script type="text/javascript" src="js/less.js"></script> 
+    <script src="js/tinysort.js"></script>
+    <script src="js/nav-element.js"></script>
+    <script type="text/javascript">
+      $.fn.editable.defaults.showbuttons = false;
+      $.fn.editable.defaults.emptytext = "";
+      $.fn.editable.defaults.url = async function(params) {};
+      LOADER_HTML = '<center><div class="lds-ripple"><div></div><div></div></div></center>';
+      function generateUUID(format = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx') { // Public Domain/MIT
+        var d = new Date().getTime();
+        if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+          d += performance.now(); //use high-precision timer if available
+        }
+        return format.replace(/[xy]/g, function (c) {
+          var r = (d + Math.random() * 16) % 16 | 0;
+          d = Math.floor(d / 16);
+          return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+      }
+      const setTitle = function  (title,el,isModal=false) {
+        $(el).html(title);
+        if(!isModal && $(el).length)
+          $("title").html((title ? ("[ "+$(el).text()+" ] :: ") : "") +"Lynn ERP");
+      }
+      const electron = nodeRequire("electron");
+      const Lynn = nodeRequire("./lynn");
+      Object.defineProperty(this,"TAXE1", {
+        get(){
+          return (app.store.get("TAXE1_SUB") ? -1 : 1) * app.store.get("TAXE1");
+        }
+      });
+      Object.defineProperty(this,"TAXE2", {
+        get(){
+          return (app.store.get("TAXE2_SUB") ? -1 : 1) * app.store.get("TAXE2")
+        }
+      });
+      // var TAXE1 = -1;
+      // var TAXE2 = -9.5;
+      const app = new Lynn('.menu-w  ul.main-menu', '.content-i .content-box');
+      $("#loader-wrapper").next().hide();
+      app.once('ready',async ()=>{
+        $("#loader-wrapper").next().show();
+        $(".logged-user-name").html(`${app.locales.user.lastName} ${app.locales.user.firstName}`);
+        $(".logged-user-role").html(`${app.locales.user.roles[0]}`);
+        $('body').toggleClass('loaded');
+      });
+      window.onbeforeunload = (event) => {
+        const choice = electron.remote.dialog.showMessageBox(electron.remote.getCurrentWindow(), {
+              type: 'question',
+              buttons: ['Leave', 'Stay'],
+              title: 'Do you want to leave this site?',
+              message: 'Changes you made may not be saved.',
+              defaultId: 0,
+              cancelId: 1
+            })
+            const leave = (choice === 0)
+            if (leave)
+              return event.preventDefault();
+            event.returnValue = false;
+            app.emit("unload");
+      }
+    </script>
+    <script src="js/main.js?version=4.4.0"></script>
+    <style type="text/css">
+      [rel=lockView] > div{
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .swal2-container{
+        z-index: 100000060;
+      }
+    </style>
+    <!-- filters -->
+    <!-- <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <defs>
+          <filter id="shadowed-goo">
+              
+              <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10" />
+              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+              <feGaussianBlur in="goo" stdDeviation="3" result="shadow" />
+              <feColorMatrix in="shadow" mode="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 -0.2" result="shadow" />
+              <feOffset in="shadow" dx="1" dy="1" result="shadow" />
+              <feComposite in2="shadow" in="goo" result="goo" />
+              <feComposite in2="goo" in="SourceGraphic" result="mix" />
+          </filter>
+          <filter id="goo">
+              <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10" />
+              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+              <feComposite in2="goo" in="SourceGraphic" result="mix" />
+          </filter>
+        </defs>
+    </svg> -->
+
+    <div id="end-document" style="visbility:hidden; display:none;"></div>
+  </body>
+</html>

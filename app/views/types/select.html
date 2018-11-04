@@ -1,0 +1,56 @@
+<div class="form-group col-sm-{{field.size if field.size else 12}}">
+    <label for="{{uid}}">{{ field.label }}</label>
+    {% if field.icon %}
+    <div class="input-group">
+      {% if field.iconPosition !== 'right' %}
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <i class="{{field.icon}}"></i>
+        </div>
+      </div>
+      {% endif %}
+    <select
+    {% if field.attributes %}
+      {% for key,value in field.attributes %}
+        {{key}}="{{value}}"
+      {% endfor %}
+    {% endif %}
+    name="{{ field.name if field.name else key }}" id="{{uuid}}" class="form-control select2" multiple="{{ 'true' if field.multiple else 'false' }}"></select>
+    {% if field.iconPosition == 'right' %}
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <i class="{{field.icon}}"></i>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <select
+    {% if field.attributes %}
+      {% for key,value in field.attributes %}
+        {{key}}="{{value}}"
+      {% endfor %}
+    {% endif %}
+      name="{{ field.name if field.name else key }}" id="{{uuid}}" class="form-control select2" multiple="{{ 'true' if field.multiple else 'false' }}"></select>
+  {% endif %}
+</div>
+<script>
+    let select2 = $("#{{uuid}}").select2({
+        data : (await app.dbUsersFind({
+            selector : {
+                _id : {$regex : /^role\//}
+            }
+        } )).docs.map(option=>{
+          return {
+            id : option['{{ field.optionValue if field.optionValue else "_id" }}'],
+            text : option['{{ field.optionLabel if field.optionLabel else "_id" }}']
+          }
+        })
+    });
+    {% if field.value %}
+      console.log ({{ field.value | dump | safe }});
+      select2.val({{ field.value | dump | safe }});
+      select2.trigger("change");
+    {% endif %}
+    console.log(document)
+</script> 

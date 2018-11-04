@@ -1,0 +1,275 @@
+@font-face {
+	font-family: 'eightyshades';
+	src:url('fonts/eightyshades.eot');
+	src:url('fonts/eightyshades.eot?#iefix') format('embedded-opentype'),
+		url('fonts/eightyshades.woff') format('woff'),
+		url('fonts/eightyshades.ttf') format('truetype'),
+		url('fonts/eightyshades.svg#eightyshades') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[eightyshades-icon]:before {
+	font-family: 'eightyshades';
+	content: attr(data-icon);
+	speak: none;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="icon-"]:before {
+*/
+.eightyshades.icon-store:before, .eightyshades.icon-out:before, .eightyshades.icon-in:before, .eightyshades.icon-in-alt:before, .eightyshades.icon-home:before, .eightyshades.icon-light-bulb:before, .eightyshades.icon-anchor:before, .eightyshades.icon-feather:before, .eightyshades.icon-expand:before, .eightyshades.icon-maximize:before, .eightyshades.icon-search:before, .eightyshades.icon-zoom-in:before, .eightyshades.icon-zoom-out:before, .eightyshades.icon-add:before, .eightyshades.icon-subtract:before, .eightyshades.icon-exclamation:before, .eightyshades.icon-question:before, .eightyshades.icon-close:before, .eightyshades.icon-cmd:before, .eightyshades.icon-forbid:before, .eightyshades.icon-forbid-2:before, .eightyshades.icon-spinner:before, .eightyshades.icon-play:before, .eightyshades.icon-stop:before, .eightyshades.icon-pause:before, .eightyshades.icon-forward:before, .eightyshades.icon-rewind:before, .eightyshades.icon-sound:before, .eightyshades.icon-sound-alt:before, .eightyshades.icon-sound-off:before, .eightyshades.icon-task:before, .eightyshades.icon-inbox:before, .eightyshades.icon-inbox-alt:before, .eightyshades.icon-envelope:before, .eightyshades.icon-compose:before, .eightyshades.icon-newspaper:before, .eightyshades.icon-newspaper-alt:before, .eightyshades.icon-clipboard:before, .eightyshades.icon-calendar:before, .eightyshades.icon-hyperlink:before, .eightyshades.icon-trash:before, .eightyshades.icon-trash-alt:before, .eightyshades.icon-grid:before, .eightyshades.icon-grid-alt:before, .eightyshades.icon-menu:before, .eightyshades.icon-list:before, .eightyshades.icon-gallery:before, .eightyshades.icon-calculator:before, .eightyshades.icon-windows:before, .eightyshades.icon-browser:before, .eightyshades.icon-alarm:before, .eightyshades.icon-clock:before, .eightyshades.icon-attachment:before, .eightyshades.icon-settings:before, .eightyshades.icon-portfolio:before, .eightyshades.icon-user:before, .eightyshades.icon-users:before, .eightyshades.icon-heart:before, .eightyshades.icon-chat:before, .eightyshades.icon-comments:before, .eightyshades.icon-screen:before, .eightyshades.icon-iphone:before, .eightyshades.icon-ipad:before, .eightyshades.icon-fork-and-spoon:before, .eightyshades.icon-fork-and-knife:before, .eightyshades.icon-instagram:before, .eightyshades.icon-facebook:before, .eightyshades.icon-delicious:before, .eightyshades.icon-googleplus:before, .eightyshades.icon-dribbble:before, .eightyshades.icon-pin:before, .eightyshades.icon-pin-alt:before, .eightyshades.icon-camera:before, .eightyshades.icon-brightness:before, .eightyshades.icon-brightness-half:before, .eightyshades.icon-moon:before, .eightyshades.icon-cloud:before, .eightyshades.icon-circle-full:before, .eightyshades.icon-circle-half:before, .eightyshades.icon-globe:before {
+	font-family: 'eightyshades';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+.eightyshades.icon-store:before {
+	content: "\e000";
+}
+.eightyshades.icon-out:before {
+	content: "\e001";
+}
+.eightyshades.icon-in:before {
+	content: "\e002";
+}
+.eightyshades.icon-in-alt:before {
+	content: "\e003";
+}
+.eightyshades.icon-home:before {
+	content: "\e004";
+}
+.eightyshades.icon-light-bulb:before {
+	content: "\e005";
+}
+.eightyshades.icon-anchor:before {
+	content: "\e006";
+}
+.eightyshades.icon-feather:before {
+	content: "\e007";
+}
+.eightyshades.icon-expand:before {
+	content: "\e008";
+}
+.eightyshades.icon-maximize:before {
+	content: "\e009";
+}
+.eightyshades.icon-search:before {
+	content: "\e00a";
+}
+.eightyshades.icon-zoom-in:before {
+	content: "\e00b";
+}
+.eightyshades.icon-zoom-out:before {
+	content: "\e00c";
+}
+.eightyshades.icon-add:before {
+	content: "\e00d";
+}
+.eightyshades.icon-subtract:before {
+	content: "\e00e";
+}
+.eightyshades.icon-exclamation:before {
+	content: "\e00f";
+}
+.eightyshades.icon-question:before {
+	content: "\e010";
+}
+.eightyshades.icon-close:before {
+	content: "\e011";
+}
+.eightyshades.icon-cmd:before {
+	content: "\e012";
+}
+.eightyshades.icon-forbid:before {
+	content: "\e013";
+}
+.eightyshades.icon-forbid-2:before {
+	content: "\e014";
+}
+.eightyshades.icon-spinner:before {
+	content: "\e015";
+}
+.eightyshades.icon-play:before {
+	content: "\e016";
+}
+.eightyshades.icon-stop:before {
+	content: "\e017";
+}
+.eightyshades.icon-pause:before {
+	content: "\e018";
+}
+.eightyshades.icon-forward:before {
+	content: "\e019";
+}
+.eightyshades.icon-rewind:before {
+	content: "\e01a";
+}
+.eightyshades.icon-sound:before {
+	content: "\e01b";
+}
+.eightyshades.icon-sound-alt:before {
+	content: "\e01c";
+}
+.eightyshades.icon-sound-off:before {
+	content: "\e01d";
+}
+.eightyshades.icon-task:before {
+	content: "\e01e";
+}
+.eightyshades.icon-inbox:before {
+	content: "\e01f";
+}
+.eightyshades.icon-inbox-alt:before {
+	content: "\e020";
+}
+.eightyshades.icon-envelope:before {
+	content: "\e021";
+}
+.eightyshades.icon-compose:before {
+	content: "\e022";
+}
+.eightyshades.icon-newspaper:before {
+	content: "\e023";
+}
+.eightyshades.icon-newspaper-alt:before {
+	content: "\e024";
+}
+.eightyshades.icon-clipboard:before {
+	content: "\e025";
+}
+.eightyshades.icon-calendar:before {
+	content: "\e026";
+}
+.eightyshades.icon-hyperlink:before {
+	content: "\e027";
+}
+.eightyshades.icon-trash:before {
+	content: "\e028";
+}
+.eightyshades.icon-trash-alt:before {
+	content: "\e029";
+}
+.eightyshades.icon-grid:before {
+	content: "\e02a";
+}
+.eightyshades.icon-grid-alt:before {
+	content: "\e02b";
+}
+.eightyshades.icon-menu:before {
+	content: "\e02c";
+}
+.eightyshades.icon-list:before {
+	content: "\e02d";
+}
+.eightyshades.icon-gallery:before {
+	content: "\e02e";
+}
+.eightyshades.icon-calculator:before {
+	content: "\e02f";
+}
+.eightyshades.icon-windows:before {
+	content: "\e030";
+}
+.eightyshades.icon-browser:before {
+	content: "\e031";
+}
+.eightyshades.icon-alarm:before {
+	content: "\e032";
+}
+.eightyshades.icon-clock:before {
+	content: "\e033";
+}
+.eightyshades.icon-attachment:before {
+	content: "\e034";
+}
+.eightyshades.icon-settings:before {
+	content: "\e035";
+}
+.eightyshades.icon-portfolio:before {
+	content: "\e036";
+}
+.eightyshades.icon-user:before {
+	content: "\e037";
+}
+.eightyshades.icon-users:before {
+	content: "\e038";
+}
+.eightyshades.icon-heart:before {
+	content: "\e039";
+}
+.eightyshades.icon-chat:before {
+	content: "\e03a";
+}
+.eightyshades.icon-comments:before {
+	content: "\e03b";
+}
+.eightyshades.icon-screen:before {
+	content: "\e03c";
+}
+.eightyshades.icon-iphone:before {
+	content: "\e03d";
+}
+.eightyshades.icon-ipad:before {
+	content: "\e03e";
+}
+.eightyshades.icon-fork-and-spoon:before {
+	content: "\e03f";
+}
+.eightyshades.icon-fork-and-knife:before {
+	content: "\e040";
+}
+.eightyshades.icon-instagram:before {
+	content: "\e041";
+}
+.eightyshades.icon-facebook:before {
+	content: "\e042";
+}
+.eightyshades.icon-delicious:before {
+	content: "\e043";
+}
+.eightyshades.icon-googleplus:before {
+	content: "\e044";
+}
+.eightyshades.icon-dribbble:before {
+	content: "\e045";
+}
+.eightyshades.icon-pin:before {
+	content: "\e046";
+}
+.eightyshades.icon-pin-alt:before {
+	content: "\e047";
+}
+.eightyshades.icon-camera:before {
+	content: "\e048";
+}
+.eightyshades.icon-brightness:before {
+	content: "\e049";
+}
+.eightyshades.icon-brightness-half:before {
+	content: "\e04a";
+}
+.eightyshades.icon-moon:before {
+	content: "\e04b";
+}
+.eightyshades.icon-cloud:before {
+	content: "\e04c";
+}
+.eightyshades.icon-circle-full:before {
+	content: "\e04d";
+}
+.eightyshades.icon-circle-half:before {
+	content: "\e04e";
+}
+.eightyshades.icon-globe:before {
+	content: "\e04f";
+}

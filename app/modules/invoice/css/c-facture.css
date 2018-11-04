@@ -1,0 +1,310 @@
+.index-line{
+  /*display: none*/
+}
+
+.item-line:hover span.item-tools {
+  display: inline;
+}
+span.item-tools {
+  display: none;
+  position: absolute;
+  left: 0mm;
+  width: 30mm;
+  background: var(--indigo);
+  text-align: -webkit-right;
+  padding: 6px 8px 6px 0;
+  border-radius: 0 9mm 9mm 0;
+  height: 10mm;
+  margin-top: -2mm;
+  margin-left: -10mm;
+}
+.invoice-footer .invoice-info span:last-child:after {
+    display: none;
+}
+.invoice-footer .invoice-info span:after {
+    content: "-";
+    margin: 1mm;
+}
+.invoice-footer .invoice-info span {
+    display: inline-block;
+    padding: 0 !important;
+    text-align: -webkit-center;
+    margin: 0 !important;
+    border: none !important;
+    /* border-right: 1px solid #000 !important; */
+}
+
+.invoice-info{
+  position: absolute;
+  right: 10mm;
+  font-size: 10px;
+  width: 180mm;
+  text-align: -webkit-center;
+}
+.invoice-footer .invoice-logo{
+  position: absolute;
+  left: 10mm;
+  width: 20px;
+  height: 20px;
+}
+.sous-total-taxes{
+
+}
+.sous-total{
+  
+}
+.sous-total-taxes td {
+  padding: 1mm 3.2mm 1mm 0 !important;
+}
+.add-line{
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: block;
+  text-align: -webkit-center;
+  border: none;
+  bottom: 3.7mm;
+}
+.add-line td{
+  border: none !important;
+  padding: 0;
+  margin: 0;
+  text-align: -webkit-center;
+}
+.select2-dropdown {
+    border-width: 2px;
+    border-color: rgba(0,0,0,0.1);
+    z-index: 1060;
+    min-width: 170px;
+}
+.select2-container--default.select2-container--open.select2-container--below .select2-selection--single, .select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
+    min-width: 170px;
+}
+.terms-header form {
+  position: absolute;
+  bottom: 28mm;
+  right: 0;
+}
+.invoice-heading{
+  margin: 1cm 0 1cm 0;
+  position: absolute;
+  top: 73mm;
+  width: 190mm;
+}
+.infos {
+  position: absolute !important;
+  top: 11mm;
+  width: 190mm;
+}
+.infos .info-1{
+  position: absolute;
+  left: 0;
+  width: 70mm;
+  top: 0;
+}
+.infos .info-1 .invoice-logo-w{
+  width: 128px;
+  height: 64px;
+}
+.infos .info-1 .invoice-logo-w img, .invoice-footer .invoice-logo img{
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+.infos .info-1 .company-name {
+    font-size: 30px !important;
+    margin: 0 !important;
+}
+.infos .info-1 .company-address{
+  font-size: 13px !important;
+  font-weight: 400;
+}
+.infos .info-2{
+  position: absolute;
+  right: 0;
+  top: 35mm;
+  margin: 0;
+  padding: 0 !important;
+  width: 300px;
+  text-align: -webkit-right !important;
+}
+.invoice-w .infos .info-2 .client-name {
+  margin-bottom: 1mm;
+  font-size: 25px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.invoice-w .infos .info-2 .client-address {
+  max-height: 25mm;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.content-box{
+	--marges : 10mm;
+  --menu-size: 45px;
+  --menu-btn-color: #047bf8;
+  --menu-icon-color: #fff;
+}
+.invoice-w{
+	min-height: 297mm !important;
+	max-height: 297mm !important;
+	height: 297mm !important;
+
+	min-width: 210mm !important;
+	max-width: 210mm !important;
+	width: 210mm !important;
+
+	padding: var(--marges) !important;
+  border-radius: 0 0 6px 6px;
+}
+.invoice-w > *{
+  z-index: 3;
+}
+.invoice-footer{
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 16mm;
+    padding: var(--marges) !important;
+    padding-top : 2mm  !important;
+
+}
+.invoice-desc{
+  position: absolute;
+  right: 0mm;
+  font-size: 20px;
+}
+.invoice-desc .desc-value,.invoice-desc .desc-label{
+    display: inline;
+}
+
+.invoice-desc .desc-label{
+  font-size: 25px;
+  font-weight: 500;
+}
+.invoice-date {
+  position: absolute;
+  right: 0;
+  top: 10mm;
+  padding: 2mm;
+  font-size: 13px;
+}
+.invoice-date th{
+  text-align: right;
+}
+.invoice-date td{
+  text-align: left;
+}
+.invoice-w:before{
+  display: none;
+}
+.invoice-w .terms-content p{
+  margin: 0;
+  line-height: 17px;
+  font-size: 13px;
+  min-height: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: -webkit-match-parent;
+  text-overflow: unset;
+}
+.invoice-w .terms-content .editable-empty {
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 10px;
+  line-height: 17px;
+}
+.invoice-w bg:after {
+  width: 140%;
+  height: 450px;
+  background-color: #faf9f3;
+   position: absolute; 
+  top: -21%;
+  left: -24%;
+  -webkit-transform: rotate(-15deg);
+  transform: rotate(-15deg);
+  content: "";
+  z-index: 0;
+}
+.invoice-w bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: block;
+  z-index: 0;
+  background: #fff;
+}
+.invoice-w, .invoice-w .infos .info-2 .company-address, .invoice-w h1, .invoice-w h2, .invoice-w h3, .invoice-w h4, .invoice-w h5, .invoice-w h6, .invoice-w table thead th, .invoice-w .infos .info-1 .company-extra {
+  color: #000 !important;
+}
+.invoice-w .invoice-table thead th {
+    border-bottom: 2px solid #333 !important;
+}
+.invoice-w .invoice-table tfoot tr td{
+    border-bottom: 3px solid #333 !important;
+    border-top: 3px solid #333 !important;
+}
+.invoice-w .form-control {
+    color: #495057 !important;
+    background-color: #fff !important;
+    border-color: #047bf8 !important;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.invoice-body{
+  position: absolute;
+  width: calc(100% - 20mm);
+  top: 95mm;
+}
+.invoice-body .invoice-table{
+  width: 100%;
+}
+.invoice-body .invoice-table tbody{
+  min-height: 150mm;
+}
+.invoice-w .terms {
+    margin: 0mm;
+    position: absolute;
+    bottom: 20mm;
+    left: 10mm;
+    right: 10mm;
+}
+.invoice-table tbody tr td,
+.invoice-table tbody tr:last-child td {
+  padding: 2mm;
+}
+svg-menu {
+  position: fixed;
+  left: 295px;
+  top: 55px;
+  z-index: 3;
+}
+.nouv-client{
+  min-width: 210mm !important;
+  max-width: 210mm !important;
+  width: 210mm !important;
+  margin: 0;
+  background: #047bf8;
+  padding: 10px 0;
+  border-radius: 10px 10px 0 0;
+}
+
+.nouv-client .select2-selection{
+  height: 30px;
+}
+.nouv-client .btn-outline-primary {
+  color: #FFF;
+  background-color: transparent;
+  background-image: none;
+  border-color: #FFF;
+}
+.nouv-client .btn-outline-primary:hover {
+  color: #047bf8;
+  background-color: #FFF;
+  border-color: transparent;
+}
