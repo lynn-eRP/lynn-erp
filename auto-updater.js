@@ -36,17 +36,18 @@ exports.initialize = function() {
     exports.updateMenu();
   });
 
-  // autoUpdater.setFeedURL(`https://release.hospitalrun.io/updates?version=${app.getVersion()}`);
-  let platform = 'macos';
-  if (process.platform === 'win32') {
-    platform = 'win32';
-    if (process.env.PROCESSOR_ARCHITECTURE === 'AMD64') {
-      platform = 'win32x64';
-    }
-  } else if (process.platform !== 'darwin') {
-    platform = process.platform;
-  }
-  autoUpdater.setFeedURL(`https://releases.hospitalrun.io/updates?version=${app.getVersion()}&platform=${platform}`);
+  const server = "https://hazel-server-pmtfvlupfo.now.sh";
+  const feed = `${server}/update/${process.platform}/${app.getVersion()}`
+  // let platform = 'macos';
+  // if (process.platform === 'win32') {
+  //   platform = 'win32';
+  //   if (process.env.PROCESSOR_ARCHITECTURE === 'AMD64') {
+  //     platform = 'win32x64';
+  //   }
+  // } else if (process.platform !== 'darwin') {
+  //   platform = process.platform;
+  // }
+  autoUpdater.setFeedURL(feed);
   autoUpdater.checkForUpdates();
 };
 
